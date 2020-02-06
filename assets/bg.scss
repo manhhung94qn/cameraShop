@@ -3,11 +3,17 @@
         &-primary {
             background-color: var(--v-bgPrimary-base);
         }
+        &-primary-im {
+            background-color: var(--v-bgPrimary-base) !important;
+        }
         &-accent {
             background-color: var(--v-bgAccent-base);
         }
         &-secondary {
             background-color: var(--v-bgSecondary-base);
+        }
+        &-secondary-im {
+            background-color: var(--v-bgSecondary-base) !important;
         }
         &-info {
             background-color: var(--v-bgInfo-base);

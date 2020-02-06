@@ -4,7 +4,7 @@
         <section class="top-link bg-color-secondary">
             <v-container class="py-0">
                 <v-row>
-                    <v-col cols="12" class="d-flex py-1 justify-content-between align-item-center">
+                    <v-col cols="12" class="d-flex py-1 justify-space-between align-item-center">
                         <ul class="topmenu-contact">
                             <li class="text-color-accent d-flex">
                                 <v-icon class="mr-1" small color="textAccent">mdi-cellphone-iphone</v-icon>
@@ -34,75 +34,48 @@
                             </li>
                         </ul>
                         <div class="topmenu d-flex d-lg-none">
-                            <v-menu :absolute="false">
+                            <v-menu :absolute="absolute" :offset-x="offsetX" :offset-y="offsetY">
                                 <template v-slot:activator="{ on }">
-                                    <v-btn color="primary" v-on="on">Dropdown</v-btn>
+                                    <v-icon class="mr-2" v-on="on">mdi-account-circle-outline</v-icon>
                                 </template>
-                                <v-list>
+                                <v-list class="bg-color-secondary-im">
                                     <v-list-item>
-                                        <v-list-item-title>Đăng nhập</v-list-item-title>
+                                        <v-list-item-title class="d-flex align-center">
+                                            <nuxt-link class="text-color-info-im" to="/">
+                                                <v-icon small class="mr-1">mdi-account-key-outline</v-icon> Đăng nhập
+                                            </nuxt-link>
+                                        </v-list-item-title>
                                     </v-list-item>
                                     <v-list-item>
-                                        <v-list-item-title>Đăng ký</v-list-item-title>
+                                        <v-list-item-title class="d-flex align-center">
+                                            <nuxt-link class="text-color-info-im" to="/inspire">
+                                                <v-icon small class="mr-1">mdi-key-outline</v-icon> Đăng ký
+                                            </nuxt-link>
+                                        </v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                             </v-menu>
-                            <div class="quick-user mr-4">
-                                <!-- <b-nav-item-dropdown class="backgroundHeader" right>
-                                    <template v-slot:button-content>
-                                        <i class="fa fa-user" style="color:#aaa"></i>
-                                    </template>
-                                    <b-dropdown-item to="/test">
-                                        <span class="px-3 colorTextHeader">
-                                            <i class="fa fa-sign-in"></i> Đăng nhập
-                                        </span>
-                                    </b-dropdown-item>
-                                    <b-dropdown-item to="/test">
-                                        <span class="px-3 colorTextHeader">
-                                            <i class="fa fa-key"></i> Đăng ký
-                                        </span>
-                                    </b-dropdown-item>
-                                </b-nav-item-dropdown>-->
-                            </div>
-                            <div class="quick-access">
-                                <!-- <b-nav-item-dropdown class="backgroundHeader" right>
-                                    <template v-slot:button-content>
-                                        <i class="fa fa-list" style="color:#aaa"></i>
-                                    </template>
-                                    <b-dropdown-item to="/test">
-                                        <span class="px-3 colorTextHeader">
-                                            <i class="fa fa-pencil-square-o"></i> Kiểm tra đơn hàng
-                                        </span>
-                                    </b-dropdown-item>
-                                    <b-dropdown-item to="/test">
-                                        <span class="px-3 colorTextHeader">
-                                            <i class="fa fa-shopping-cart"></i> Giỏ hàng
-                                        </span>
-                                    </b-dropdown-item>
-                                </b-nav-item-dropdown>-->
-                                <div class="inner-toggle d-none">
-                                    <ul class="links">
-                                        <li>
-                                            <a
-                                                id="mobile-wishlist-total"
-                                                href="/kiem-tra-don-hang.html"
-                                                class="wishlist colorTextHeader"
-                                            >
-                                                <i class="fa fa-pencil-square-o"></i> Kiểm tra đơn
-                                                hàng
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="/gio-hang.html"
-                                                class="shoppingcart colorTextHeader"
-                                            >
-                                                <i class="fa fa-shopping-cart"></i> Giỏ hàng
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <v-menu content-class="bg-color-secondary" :absolute="absolute" :offset-x="offsetX" :offset-y="offsetY">
+                                <template v-slot:activator="{ on }">
+                                    <v-icon v-on="on">mdi-format-list-bulleted</v-icon>
+                                </template>
+                                <v-list class="bg-color-secondary-im">
+                                    <v-list-item>
+                                        <v-list-item-title class="d-flex align-center">
+                                            <nuxt-link class="text-color-info-im" to="/inspire">
+                                                <v-icon small class="mr-1">mdi-file-document-edit-outline</v-icon> Kiểm tra đơn hàng
+                                            </nuxt-link>
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                    <v-list-item>
+                                        <v-list-item-title class="d-flex align-center">
+                                            <nuxt-link class="text-color-info-im" to="/inspire">
+                                                <v-icon small class="mr-1">mdi-basket-outline</v-icon> Giỏ hàng
+                                            </nuxt-link>
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
                         </div>
                     </v-col>
                 </v-row>
@@ -149,7 +122,7 @@
                                         <div class="cart_box_wrap hidden">
                                             <div class="cart_item original clearfix">
                                                 <div class="cart_item_image"></div>
-                                                <div class="cart_item_info">
+                                                <div class="cart_item_info-im">
                                                     <p class="cart_item_title"><a href="" title=""></a></p>
                                                     <span class="cart_item_quantity"></span>
                                                     <span class="cart_item_price"></span>
@@ -393,7 +366,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            absolute: false,
+            offsetX: true,
+            offsetY: true
+        }
+    },
+};
 </script>
 
 <style scoped lang="scss">

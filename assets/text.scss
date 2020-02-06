@@ -12,6 +12,9 @@
         &-info {
             color: var(--v-textInfo-base);
         }
+        &-info-im {
+            color: var(--v-textInfo-base) !important;
+        }
         &-warning {
             color: var(--v-textWarning-base);
         }
