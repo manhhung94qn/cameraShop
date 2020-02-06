@@ -1,0 +1,25 @@
+.bg {
+    &-color {
+        &-primary {
+            background-color: var(--v-bgPrimary-base);
+        }
+        &-accent {
+            background-color: var(--v-bgAccent-base);
+        }
+        &-secondary {
+            background-color: var(--v-bgSecondary-base);
+        }
+        &-info {
+            background-color: var(--v-bgInfo-base);
+        }
+        &-warning {
+            background-color: var(--v-bgWarning-base);
+        }
+        &-error {
+            background-color: var(--v-bgError-base);
+        }
+        &-success {
+            background-color: var(--v-bgSuccess-base);
+        }
+    }
+}

@@ -1,0 +1,25 @@
+.text {
+    &-color {
+        &-primary {
+            color: var(--v-textPrimary-base);
+        }
+        &-accent {
+            color: var(--v-textAccent-base);
+        }
+        &-secondary {
+            color: var(--v-textSecondary-base);
+        }
+        &-info {
+            color: var(--v-textInfo-base);
+        }
+        &-warning {
+            color: var(--v-textWarning-base);
+        }
+        &-error {
+            color: var(--v-textError-base);
+        }
+        &-success {
+            color: var(--v-textSuccess-base);
+        }
+    }
+}
