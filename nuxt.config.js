@@ -78,14 +78,14 @@ module.exports = {
         light: {
           //bg
           bgPrimary: colors.blue.darken2,
-          bgAccent: colors.grey.darken3,
+          bgAccent: '#FFF',
           bgSecondary: '#f5f5f5',
           bgInfo: colors.teal.lighten1,
           bgWarning: colors.amber.base,
           bgError: colors.deepOrange.accent4,
           bgSuccess: colors.green.accent3,
           //text
-          textPrimary: colors.blue.darken2,
+          textPrimary: colors.grey.darken4,
           textAccent: '#0f9ed8',
           textSecondary: colors.amber.darken3,
           textInfo: '#aaaaaa',

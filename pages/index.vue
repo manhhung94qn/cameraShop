@@ -4,11 +4,7 @@
     justify-center
     align-center
   >
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
+    <v-flex>
       <div class="text-center">
         <logo />
         <vuetify-logo />
