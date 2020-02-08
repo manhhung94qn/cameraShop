@@ -77,17 +77,17 @@ module.exports = {
         },
         light: {
           //bg
-          bgPrimary: colors.blue.darken2,
+          bgPrimary: '#0f9ed8',
           bgAccent: '#FFF',
           bgSecondary: '#f5f5f5',
           bgInfo: colors.teal.lighten1,
           bgWarning: colors.amber.base,
           bgError: colors.deepOrange.accent4,
-          bgSuccess: colors.green.accent3,
+          bgSuccess: colors.blue.darken3,
           //text
           textPrimary: colors.grey.darken4,
           textAccent: '#0f9ed8',
-          textSecondary: colors.amber.darken3,
+          textSecondary: '#FFFFFF',
           textInfo: '#aaaaaa',
           textWarning: colors.amber.base,
           textError: colors.deepOrange.accent4,

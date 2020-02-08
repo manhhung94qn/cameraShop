@@ -81,6 +81,8 @@
                 :offset-y="offsetY"
                 :close-on-content-click="false"
                 transition="slide-y-reverse-transition"
+                max-width="350px"
+                min-width="350px"
               >
                 <template v-slot:activator="{ on }">
                   <div v-on="on">
@@ -100,22 +102,34 @@
                   v-if="listProductInCard.length == 0"
                   class="bg-color-accent ma-0 pa-3"
                 >Giỏ hàng của bạn vẫn chưa có sản phẩm nào.</p>
-                <v-list v-else>
-                  <v-list-item v-for="item in listProductInCard" :key="item.id">
-                    <v-list-item-avatar>
-                      <v-img :src="item.url"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title>{{item.title}}</v-list-item-title>
-                      <v-list-item-subtitle>Số lượng: {{item.quatity}}</v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-action>
-                      <v-btn @click="deleteProductFromShopCard(item)" icon>
-                        <v-icon color="grey lighten-1">mdi-close</v-icon>
-                      </v-btn>
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list>
+                <div v-else>
+                  <div class="wrap-list-card">
+                    <v-list>
+                      <template v-for="(item,i) in listProductInCard">
+                        <v-list-item :key="item.id">
+                          <v-list-item-avatar>
+                            <v-img :src="item.url"></v-img>
+                          </v-list-item-avatar>
+                          <v-list-item-content>
+                            <v-list-item-title class="text-truncate">{{item.title}}</v-list-item-title>
+                            <v-list-item-subtitle>Số lượng: {{item.quatity}}</v-list-item-subtitle>
+                          </v-list-item-content>
+                          <v-list-item-action>
+                            <v-btn @click="deleteProductFromShopCard(item)" icon>
+                              <v-icon color="grey lighten-1">mdi-close</v-icon>
+                            </v-btn>
+                          </v-list-item-action>
+                        </v-list-item>
+                        <v-divider :key="i + 'a'"></v-divider>
+                      </template>
+                    </v-list>
+                  </div>
+
+                  <div class="d-flex justify-space-between bg-color-accent px-5 pb-3 pt-1">
+                    <v-btn rounded color="primary">Xem giỏ hàng</v-btn>
+                    <v-btn rounded color="bgSuccess">Thanh toán</v-btn>
+                  </div>
+                </div>
               </v-menu>
             </div>
           </div>
@@ -211,7 +225,7 @@
               <template v-slot:activator>
                 <v-list-item-content>
                   <v-list-item-title>
-                      <nuxt-link to="test">Ho tro khach hang</nuxt-link>
+                    <nuxt-link to="test">Ho tro khach hang</nuxt-link>
                   </v-list-item-title>
                 </v-list-item-content>
               </template>
@@ -250,148 +264,67 @@
         </v-navigation-drawer>
       </div>
     </header>
-    <!-- <script type="text/javascript">
-                $("#btnsearch").click(function () {
-                    SearchProduct();
-                });
-                $("#btnsearch2").click(function () {
-                    SearchProduct2();
-                });
-                $("#txtsearch").keydown(function (event) {
-                    if (event.keyCode == 13) {
-                        SearchProduct();
-                    }
-                });
-                $("#txtsearch2").keydown(function (event) {
-                    if (event.keyCode == 13) {
-                        SearchProduct2();
-                    }
-                });
-                function SearchProduct() {
-                    var key = $('#txtsearch').val();
-                    if (key == '' || key == 'Tìm kiếm...') {
-                        $('#txtsearch').focus();
-                        return;
-                    }
-                    window.location = '/tim-kiem.html?key=' + key;
-                }
-                function SearchProduct2() {
-                    var key = $('#txtsearch2').val();
-                    if (key == '' || key == 'Tìm kiếm...') {
-                        $('#txtsearch2').focus();
-                        return;
-                    }
-                    window.location = '/tim-kiem.html?key=' + key;
-                }
-    </script>-->
-    <!-- <nav class="navbar-main">
-                <div id="mb_mainnav">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-12 col-xs-12 vertical_menu">
-                                <div id="mb_verticle_menu" class="menu-quick-select">
-                                    <div class="title_block">
-                                        <span>Danh mục sản phẩm</span>
-                                    </div>
-                                    <div id="menuverti" class="block_content navbar_menuvertical">
-                                        <ul class='nav_verticalmenu'>
-                                            <li class="has-child level0"><a class=''
-                                                    href='/san-pham/nghao-so-oc-33804'><img class='icon-menu'
-                                                        src='/Uploads/shop2005/images/icon/s1.png'
-                                                        alt='Nghao - Sò - Ốc'> <span>Nghao - Sò - Ốc</span></a>
-                                                <ul class='level1'>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/ngao-33820'><span>Ngao</span></a></li>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/so-33821'><span>Sò</span></a></li>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/oc-33822'><span>Ốc</span></a></li>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/hau-33823'><span>Hàu</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="level0"><a class='' href='/san-pham/bao-ngu-33805'><img
-                                                        class='icon-menu' src='/Uploads/shop2005/images/icon/s2.png'
-                                                        alt='Bào ngư'> <span>Bào ngư</span></a></li>
-                                            <li class="level0"><a class='' href='/san-pham/tom-33806'><img
-                                                        class='icon-menu' src='/Uploads/shop2005/images/icon/s3.png'
-                                                        alt='Tôm'> <span>Tôm</span></a></li>
-                                            <li class="level0"><a class='' href='/san-pham/muc-33807'><img
-                                                        class='icon-menu' src='/Uploads/shop2005/images/icon/s4.png'
-                                                        alt='Mực'> <span>Mực</span></a></li>
-                                            <li class="has-child level0"><a class='' href='/san-pham/ca-33808'><img
-                                                        class='icon-menu' src='/Uploads/shop2005/images/icon/s5.png'
-                                                        alt='Cá'> <span>Cá</span></a>
-                                                <ul class='level1'>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/ca-ngu-dai-duong-33824'><span>Cá ngừ đại
-                                                                dương</span></a></li>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/ca-hoi-33825'><span>Cá hồi</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="has-child level0"><a class=''
-                                                    href='/san-pham/cua-nghe-33809'><img class='icon-menu'
-                                                        src='/Uploads/shop2005/images/icon/s6.png' alt='Cua nghẹ'>
-                                                    <span>Cua nghẹ</span></a>
-                                                <ul class='level1'>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/cua-33826'><span>Cua</span></a></li>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/nghe-33827'><span>Nghẹ</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="level0"><a class='' href='/san-pham/sua-33810'><img
-                                                        class='icon-menu' src='/Uploads/shop2005/images/icon/s7.png'
-                                                        alt='Sứa'> <span>Sứa</span></a></li>
-                                            <li class="level0"><a class=''
-                                                    href='/san-pham/hai-san-dong-hop-che-bien-33811'><img
-                                                        class='icon-menu' src='/Uploads/shop2005/images/icon/s8.png'
-                                                        alt='Hải sản đóng hộp - chế biến'> <span>Hải sản đóng hộp - chế
-                                                        biến</span></a></li>
-                                            <li class="has-child level0"><a class=''
-                                                    href='/san-pham/hai-san-kho-33812'><img class='icon-menu'
-                                                        src='/Uploads/shop2005/images/icon/s9.png' alt='Hải sản khô'>
-                                                    <span>Hải sản khô</span></a>
-                                                <ul class='level1'>
-                                                    <li class="level1"><a class=''
-                                                            href='/san-pham/hai-san-kho-33828'><span>Hải sản
-                                                                khô</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="level0"><a class='' href='/san-pham/san-pham-khac-33813'><img
-                                                        class='icon-menu' src='/Uploads/shop2005/images/icon/s9.png'
-                                                        alt='Sản phẩm khác'> <span>Sản phẩm khác</span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <nav class="col-md-9 col-sm-12 col-xs-12 p-l-0">
-                                <ul class='menu nav navbar-nav menu_hori'>
-                                    <li class="level0"><a class='' href='/trang-chu.html'><span>Trang chủ</span></a>
-                                    </li>
-                                    <li class="level0"><a class='' href='/gioi-thieu.html'><span>Giới thiệu</span></a>
-                                    </li>
-                                    <li class="level0"><a class='' href='/san-pham.html'><span>Sản phẩm</span></a></li>
-                                    <li class="level0"><a class='' href='/tin-tuc.html'><span>Tin tức</span></a></li>
-                                    <li class="level0"><a class='' href='/lien-he.html'><span>Liên hệ</span></a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+
+    <nav class="navbar-main d-none d-lg-block">
+      <div id="mb_mainnav" class="bg-color-primary">
+        <div class="container py-0">
+          <div class="row">
+            <div class="col-md-3 col-sm-12 col-xs-12 py-0 vertical_menu">
+              <div id="mb_verticle_menu" class="menu-quick-select">
+                <div class="title_block py-2 px-5 d-flex justify-space-between">
+                  <span>DANH MỤC SẢN PHẨM</span>
+                  <v-icon color="textSecondary">mdi-menu</v-icon>
                 </div>
-    </nav>-->
-    <!-- <script type="text/javascript">
-                $(document).ready(function () {
-                    var str = location.href.toLowerCase();
-                    $("ul.menu li a").each(function () {
-                        if (str.indexOf(this.href.toLowerCase()) >= 0) {
-                            $("ul.menu li").removeClass("active");
-                            $(this).parent().addClass("active");
-                        }
-                    });
-                });
-    </script>-->
+                <div class="block_content">
+                  <v-list class="py-0">
+                    <template v-for="item in 10">
+                      <v-list-item class="pa-0" link :key="item">
+                        <v-list-item-content class="pa-0">
+                          <v-menu
+                            transition="slide-x-reverse-transition"
+                            right
+                            open-on-hover
+                            offset-x
+                            v-if="item%2!==0"
+                          >
+                            <template v-slot:activator="{ on }">
+                              <v-list-item-title class="pa-4" v-on="on">Danh mục sản phẩm {{item}}</v-list-item-title>
+                            </template>
+                            <v-list>
+                              <v-list-item link v-for="key in 5" :key="key">
+                                <v-list-item-title>Danh muc con {{ item + '-' + key}}</v-list-item-title>
+                              </v-list-item>
+                            </v-list>
+                          </v-menu>
+                          <v-list-item-title class="pa-4" v-else>Danh mục sản phẩm {{ item }}</v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-divider :key="item + 'a'"></v-divider>
+                    </template>
+                  </v-list>
+                </div>
+              </div>
+            </div>
+            <nav class="col-md-9 col-sm-12 col-xs-12 p-l-0 py-0">
+              <ul class="menu nav navbar-nav menu_hori d-flex justify-start">
+                <li class="pr-5 py-2">
+                  <nuxt-link to="/" class="nav-link">Trang chủ</nuxt-link>
+                </li>
+                <li class="pr-5 py-2">
+                  <nuxt-link to="/test" class="nav-link">Giới thiệu</nuxt-link>
+                </li>
+                <li class="pr-5 py-2">
+                  <nuxt-link to="/test" class="nav-link">Tin tuc</nuxt-link>
+                </li>
+                <li class="pr-5 py-2">
+                  <nuxt-link to="/test" class="nav-link">Lien he</nuxt-link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -402,6 +335,8 @@ export default {
       absolute: false,
       activeList: false,
       activeList2: false,
+      sumMoneyCard: 10000,
+      postY: 100,
       pstSelected: 1,
       offsetX: true,
       offsetY: true,
@@ -452,7 +387,8 @@ export default {
         {
           id: 2,
           url: "/images/logo.png",
-          title: "Camera thường 2412",
+          title:
+            "Camera thường 2412 Camera thường 2412 Camera thường 2412 Camera thường 2412",
           quatity: 3
         },
         {
@@ -466,6 +402,13 @@ export default {
           url: "/images/logo.png",
           title: "Camera ngon 2412",
           quatity: 5
+        },
+        {
+          id: 5,
+          url: "/images/logo.png",
+          title:
+            "Camera thường 2412 Camera thường 2412 Camera thường 2412 Camera thường 2412",
+          quatity: 1
         }
       ],
       items: [
@@ -542,6 +485,10 @@ export default {
   border: 2px solid;
   border-radius: 50%;
 }
+.wrap-list-card {
+  max-height: 265px;
+  overflow-y: auto;
+}
 .header {
   #header_main {
     height: 95px;
@@ -609,6 +556,27 @@ export default {
       top: 50%;
       right: 0;
       transform: translateY(-50%);
+    }
+  }
+}
+.navbar-main {
+  .nav-link {
+    color: var(--v-textSecondary-base);
+    font-weight: 450px;
+  }
+  .menu-quick-select {
+    position: relative;
+    .title_block {
+      font-weight: 450;
+      color: var(--v-textSecondary-base);
+      background-color: var(--v-bgSuccess-base);
+    }
+    .block_content {
+      position: absolute;
+      border-left: 1px solid rgba(0, 0, 0, 0.12);
+      border-right: 1px solid rgba(0, 0, 0, 0.12);
+      z-index: 1;
+      width: 100%;
     }
   }
 }

@@ -9,6 +9,9 @@
         &-secondary {
             color: var(--v-textSecondary-base);
         }
+        &-secondary-im {
+            color: var(--v-textSecondary-base) !important;
+        }
         &-info {
             color: var(--v-textInfo-base);
         }
