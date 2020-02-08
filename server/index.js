@@ -7,7 +7,7 @@ require('./configs/db');
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
-
+const port = process.env.PORT || 3000;
 app.use(function (req, res, next) {
   res.setHeader('X-Powered-By', 'HungKing.io')
   next()
@@ -19,7 +19,7 @@ async function start () {
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
-  const { host, port } = nuxt.options.server
+  //const { host, port } = nuxt.options.server
 
   // Build only in dev mode
   if (config.dev) {
@@ -33,9 +33,9 @@ async function start () {
   app.use(nuxt.render)
 
   // Listen the server
-  app.listen(port, host)
+  app.listen(port)
   consola.ready({
-    message: `Server listening on http://${host}:${port}`,
+    message: `Server listening on ${port}`,
     badge: true
   })
 }
