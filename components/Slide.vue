@@ -1,8 +1,8 @@
 <template>
-  <div class="container pa-0">
-    <div class="row justify-end pa-0">
+  <div class="slide">
+    <div class="row justify-end py-0">
       <div class="col-lg-9 py-0">
-        <v-carousel :height="computedInnerWidth">
+        <v-carousel cycle interval="10000" :height="computedInnerWidth">
           <v-carousel-item        
             v-for="(item,i) in items"
             :key="i"
@@ -24,19 +24,19 @@ export default {
     return {
       items: [
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+          src: "/images/b0.jpg",
           to: '/test'
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
+          src: "/images/b1.jpg",
           to: '/test'
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
+          src: "/images/b2.jpg",
           to: '/test'
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
+          src: "/images/b3.jpg",
           to: 'test'
         }
       ],
