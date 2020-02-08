@@ -49,7 +49,6 @@
       </v-container>
     </section>
 
-    <!-- Header -->
     <header id="header">
       <div id="header_main" class="d-none d-lg-block">
         <div class="container">
@@ -343,7 +342,7 @@ export default {
       drawer: false,
       listMenuTopMobile: [
         {
-          icon: "mdi-account-circle-outline",
+          icon: "mdi-account-circle",
           type: 1
         },
         {
