@@ -3,7 +3,7 @@
     <Slide />
     <Service />
     <v-sheet elevation="1" class="sheet-slide mt-10 pt-8">
-      <no-ssr>
+      <client-only>
         <!-- important to add no-ssr-->
         <carousel
           :autoplay="owlOption1.autoplay"
@@ -28,7 +28,7 @@
             </v-btn>
           </template>
         </carousel>
-      </no-ssr>
+      </client-only>
     </v-sheet>
   </div>
 </template> 

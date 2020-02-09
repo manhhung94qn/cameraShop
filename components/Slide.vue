@@ -43,7 +43,7 @@ export default {
       innerWidth: 0
     };
   },
-  mounted() {
+  beforeMount() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
   },
