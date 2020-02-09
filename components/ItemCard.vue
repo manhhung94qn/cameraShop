@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card class="mx-auto" width="344" :elevation="hover ? 3 : 0" :hover="true">
+    <v-card to="/inspire" class="mx-auto" width="344" :elevation="hover ? 3 : 0" :hover="true">
       <v-img v-once :src="getRandomUrlImage()" height="250px"></v-img>
       <v-card-title v-once class="text-title">{{getRandomName()}}</v-card-title>
       <v-card-subtitle>Giá: Liên hệ ngay để biết giá</v-card-subtitle>
