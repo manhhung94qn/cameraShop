@@ -32,7 +32,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "~/plugins/bootstrap.js"
+    "~/plugins/bootstrap.js",{src: 'plugins/owl.js', ssr: false}
   ],
   /*
   ** Nuxt.js dev-modules
