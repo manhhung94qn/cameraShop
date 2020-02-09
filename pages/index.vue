@@ -107,12 +107,14 @@ export default {
     position: absolute;
     content: '';
     width: 500px;
+    max-width: 90%;
     height: 100px;
     top: 0;
     left: 50%;
     transform: translate(-50%,-50%);
     color: var(--v-textAccent-base);
-    background: url('/images/km.png') no-repeat center;
+    background: url('/images/km.png') no-repeat;
+    background-position: center;
     font-weight: 500;
     font-size: 1.8em;
   }

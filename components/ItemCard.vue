@@ -8,8 +8,8 @@
         <p>Miễn phí lắp đặt</p>
       </v-card-text>
       <v-card-actions class="d-flex justify-space-between">
-        <v-btn text outlined rounded color="bgPrimary">Thêm vào giỏ</v-btn>
-        <v-btn text rounded outlined color="bgSuccess">Mua ngay</v-btn>
+        <v-btn text outlined rounded color="bgPrimary" @click.stop.prevent>Thêm vào giỏ</v-btn>
+        <v-btn text rounded outlined color="bgSuccess" @click.stop.prevent>Mua ngay</v-btn>
       </v-card-actions>
     </v-card>
   </v-hover>
