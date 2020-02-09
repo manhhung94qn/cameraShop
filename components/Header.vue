@@ -203,17 +203,26 @@
                   <v-list-item-title>San pham</v-list-item-title>
                 </v-list-item-content>
               </template>
-              <v-list-item link>
+              <v-list-item class="pl-9" link>
                 <v-list-item-content>
                   <v-list-item-title>
-                    <nuxt-link to="/">San pham 1</nuxt-link>
+                    <nuxt-link to="/">Sản phẩm 1</nuxt-link>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item link>
+              <v-divider class="ml-9"></v-divider>
+              <v-list-item class="pl-9" link>
                 <v-list-item-content>
                   <v-list-item-title>
-                    <nuxt-link to="/test">San pham 1</nuxt-link>
+                    <nuxt-link to="/">Sản phẩm 2</nuxt-link>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider class="ml-9"></v-divider>
+              <v-list-item class="pl-9" link>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <nuxt-link to="/">Sản phẩm 3</nuxt-link>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -224,7 +233,7 @@
               <template v-slot:activator>
                 <v-list-item-content>
                   <v-list-item-title>
-                    <nuxt-link to="test">Ho tro khach hang</nuxt-link>
+                    <nuxt-link to="/test">Ho tro khach hang</nuxt-link>
                   </v-list-item-title>
                 </v-list-item-content>
               </template>

@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.11",
     "nuxt": "^2.0.0",
+    "v-owl-carousel": "^1.0.8",
     "validator": "^12.2.0"
   },
   "devDependencies": {

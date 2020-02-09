@@ -1,7 +1,7 @@
 <template>
-  <v-app dark>
+  <v-app>
     <Header />
-    <v-content>
+    <v-content class="app-content">
       <v-container>
         <nuxt />
       </v-container>
@@ -24,6 +24,9 @@ export default {
 };
 </script>
 <style lang="scss">
+.app-content {
+  background-color:aliceblue !important;
+}
 a {
   i {
     color: inherit !important;
