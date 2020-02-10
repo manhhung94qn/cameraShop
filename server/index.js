@@ -12,7 +12,7 @@ app.use(function (req, res, next) {
   res.setHeader('X-Powered-By', 'HungKing.io')
   next()
 });
-
+app.use(express.json());
 router(app);
 
 async function start () {
