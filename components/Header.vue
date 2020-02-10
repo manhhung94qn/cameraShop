@@ -1,6 +1,5 @@
 <template>
   <div class="header">
-    <!-- <script src="/Scripts/common/login.js" type="text/javascript"></script> -->
     <section class="top-link bg-color-secondary">
       <v-container class="py-0 h-wrap">
         <v-row>
@@ -279,38 +278,42 @@
           <div class="row">
             <div class="col-md-3 col-sm-12 col-xs-12 py-0 vertical_menu">
               <div id="mb_verticle_menu" class="menu-quick-select">
-                <div class="title_block py-2 px-5 d-flex justify-space-between">
+                <div
+                  @mouseover="changeIshowMenu(true)"
+                  @mouseleave="changeIshowMenu(false)"
+                  class="title_block py-2 px-5 d-flex justify-space-between"
+                >
                   <span>DANH MỤC SẢN PHẨM</span>
                   <v-icon color="textSecondary">mdi-menu</v-icon>
                 </div>
-                <div class="block_content">
-                  <v-list class="py-0">
-                    <template v-for="item in 10">
-                      <v-list-item class="pa-0" link :key="item">
-                        <v-list-item-content class="pa-0">
-                          <v-menu
-                            transition="slide-x-reverse-transition"
-                            right
-                            open-on-hover
-                            offset-x
-                            v-if="item%2!==0"
-                          >
-                            <template v-slot:activator="{ on }">
-                              <v-list-item-title class="pa-4" v-on="on">Danh mục sản phẩm {{item}}</v-list-item-title>
-                            </template>
-                            <v-list>
-                              <v-list-item link v-for="key in 5" :key="key">
-                                <v-list-item-title>Danh muc con {{ item + '-' + key}}</v-list-item-title>
-                              </v-list-item>
-                            </v-list>
-                          </v-menu>
-                          <v-list-item-title class="pa-4" v-else>Danh mục sản phẩm {{ item }}</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-divider :key="item + 'a'"></v-divider>
-                    </template>
-                  </v-list>
-                </div>
+                <div class="block_content" v-show="computedIsShowListMenu">
+                    <v-list class="py-0">
+                      <template v-for="item in 10">
+                        <v-list-item class="pa-0" link :key="item">
+                          <v-list-item-content class="pa-0">
+                            <v-menu
+                              transition="slide-x-reverse-transition"
+                              right
+                              open-on-hover
+                              offset-x
+                              v-if="item%2!==0"
+                            >
+                              <template v-slot:activator="{ on }">
+                                <v-list-item-title class="pa-4" v-on="on">Danh mục sản phẩm {{item}}</v-list-item-title>
+                              </template>
+                              <v-list>
+                                <v-list-item link v-for="key in 5" :key="key">
+                                  <v-list-item-title>Danh muc con {{ item + '-' + key}}</v-list-item-title>
+                                </v-list-item>
+                              </v-list>
+                            </v-menu>
+                            <v-list-item-title class="pa-4" v-else>Danh mục sản phẩm {{ item }}</v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                        <v-divider :key="item + 'a'"></v-divider>
+                      </template>
+                    </v-list>
+                  </div>
               </div>
             </div>
             <nav class="col-md-9 col-sm-12 col-xs-12 p-l-0 py-0">
@@ -460,7 +463,8 @@ export default {
           title: "Promotions",
           items: [{ title: "List Item" }]
         }
-      ]
+      ],
+      isShowListMenu: false
     };
   },
   created() {},
@@ -472,11 +476,18 @@ export default {
       let i = this.listProductInCard.indexOf(item);
       if (i >= 0) this.listProductInCard.splice(i, 1);
       return;
+    },
+    changeIshowMenu(status) {
+      if (status === this.computedIsShowListMenu) return;
+      this.$store.commit("view/setIsShowListMenu", { value: status });
     }
   },
   computed: {
     computedCountListProductInCard() {
       return this.listProductInCard.length;
+    },
+    computedIsShowListMenu() {
+      return this.$store.state.view.isShowListMenu;
     }
   },
   watch: {

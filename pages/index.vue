@@ -4,7 +4,6 @@
     <Service />
     <v-sheet elevation="1" class="sheet-slide mt-10 pt-8">
       <client-only>
-        <!-- important to add no-ssr-->
         <carousel
           :autoplay="owlOption1.autoplay"
           :dots="owlOption1.dots"
@@ -58,6 +57,9 @@ export default {
       ]
     };
   },
+  created () {
+    this.$store.commit('view/setIsShowListMenu',{value: true});
+  },
   data() {
     return {
       model: 1,
@@ -73,7 +75,10 @@ export default {
         }
       }
     };
-  }
+  },
+  beforeDestroy () {
+    this.$store.commit('view/setIsShowListMenu',{value: false});
+  },
 };
 </script>
 
