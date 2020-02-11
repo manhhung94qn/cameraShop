@@ -103,7 +103,7 @@
                 <div v-else>
                   <div class="wrap-list-card">
                     <v-list>
-                      <template v-for="(item,i) in listProductInCard">
+                      <template v-for="(item,i) in computedListProductInCard">
                         <v-list-item :key="item.id">
                           <v-list-item-avatar>
                             <v-img :src="item.url"></v-img>
@@ -500,6 +500,9 @@ export default {
     },
     computedIsShowListMenu() {
       return this.$store.state.view.isShowListMenu;
+    },
+    computedListProductInCard(){
+      return this.$store.state.product.listProductInCard;
     }
   },
   watch: {
