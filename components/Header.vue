@@ -1,8 +1,7 @@
 <template>
   <div class="header">
-    <!-- <script src="/Scripts/common/login.js" type="text/javascript"></script> -->
     <section class="top-link bg-color-secondary">
-      <v-container class="py-0">
+      <v-container class="py-0 h-wrap">
         <v-row>
           <v-col cols="12" class="d-flex py-1 justify-space-between align-item-center">
             <ul class="topmenu-contact">
@@ -98,16 +97,16 @@
                   </div>
                 </template>
                 <p
-                  v-if="listProductInCard.length == 0"
+                  v-if="computedCountListProductInCard == 0"
                   class="bg-color-accent ma-0 pa-3"
                 >Giỏ hàng của bạn vẫn chưa có sản phẩm nào.</p>
                 <div v-else>
                   <div class="wrap-list-card">
                     <v-list>
-                      <template v-for="(item,i) in listProductInCard">
+                      <template v-for="(item,i) in computedListProductInCard">
                         <v-list-item :key="item.id">
                           <v-list-item-avatar>
-                            <v-img :src="item.url"></v-img>
+                            <v-img :src="item.imageSrc"></v-img>
                           </v-list-item-avatar>
                           <v-list-item-content>
                             <v-list-item-title class="text-truncate">{{item.title}}</v-list-item-title>
@@ -278,12 +277,17 @@
         <div class="container py-0">
           <div class="row">
             <div class="col-md-3 col-sm-12 col-xs-12 py-0 vertical_menu">
-              <div id="mb_verticle_menu" class="menu-quick-select">
+              <div
+                @mouseover="changeIshowMenu(true)"
+                @mouseleave="changeIshowMenu(false)"
+                id="mb_verticle_menu"
+                class="menu-quick-select"
+              >
                 <div class="title_block py-2 px-5 d-flex justify-space-between">
                   <span>DANH MỤC SẢN PHẨM</span>
                   <v-icon color="textSecondary">mdi-menu</v-icon>
                 </div>
-                <div class="block_content">
+                <div class="block_content" v-show="computedIsShowListMenu">
                   <v-list class="py-0">
                     <template v-for="item in 10">
                       <v-list-item class="pa-0" link :key="item">
@@ -298,7 +302,9 @@
                             <template v-slot:activator="{ on }">
                               <v-list-item-title class="pa-4" v-on="on">Danh mục sản phẩm {{item}}</v-list-item-title>
                             </template>
-                            <v-list>
+                            <v-list 
+                            @mouseover="changeIshowMenu(true)"
+                            @mouseleave="changeIshowMenu(false)">
                               <v-list-item link v-for="key in 5" :key="key">
                                 <v-list-item-title>Danh muc con {{ item + '-' + key}}</v-list-item-title>
                               </v-list-item>
@@ -337,6 +343,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -385,40 +392,6 @@ export default {
           type: 1
         }
       ],
-      listProductInCard: [
-        {
-          id: 1,
-          url: "/images/logo.png",
-          title: "Camera Wifi 2412",
-          quatity: 1
-        },
-        {
-          id: 2,
-          url: "/images/logo.png",
-          title:
-            "Camera thường 2412 Camera thường 2412 Camera thường 2412 Camera thường 2412",
-          quatity: 3
-        },
-        {
-          id: 3,
-          url: "/images/logo.png",
-          title: "Camera xịn 2412",
-          quatity: 2
-        },
-        {
-          id: 4,
-          url: "/images/logo.png",
-          title: "Camera ngon 2412",
-          quatity: 5
-        },
-        {
-          id: 5,
-          url: "/images/logo.png",
-          title:
-            "Camera thường 2412 Camera thường 2412 Camera thường 2412 Camera thường 2412",
-          quatity: 1
-        }
-      ],
       items: [
         {
           action: "mdi-menu",
@@ -460,7 +433,9 @@ export default {
           title: "Promotions",
           items: [{ title: "List Item" }]
         }
-      ]
+      ],
+      isShowListMenu: false,
+      timeOutShowListMenu: null
     };
   },
   created() {},
@@ -468,16 +443,37 @@ export default {
     getListMenuByType(type) {
       return this.listMenuTop.filter(x => x.type === type);
     },
-    deleteProductFromShopCard(item) {
-      let i = this.listProductInCard.indexOf(item);
-      if (i >= 0) this.listProductInCard.splice(i, 1);
-      return;
-    }
+    // deleteProductFromShopCard(item) {
+    //   let i = this.listProductInCard.indexOf(item);
+    //   if (i >= 0) this.listProductInCard.splice(i, 1);
+    //   return;
+    // },
+    changeIshowMenu(status) {
+      if (this.$route.path == "/") return;
+      if (status === this.computedIsShowListMenu) return;
+      this.timeOutShowListMenu && clearTimeout(this.timeOutShowListMenu);
+      if (!this.status) {
+        this.timeOutShowListMenu = setTimeout(() => {
+          this.$store.commit("view/setIsShowListMenu", { value: status });
+        }, 1000);
+      } else {
+        this.$store.commit("view/setIsShowListMenu", { value: status });
+      }
+    },
+    ...mapActions({
+      deleteProductFromShopCard: 'product/deleteItemInCard'
+    })
   },
   computed: {
-    computedCountListProductInCard() {
-      return this.listProductInCard.length;
-    }
+    computedIsShowListMenu() {
+      return this.$store.state.view.isShowListMenu;
+    },
+    computedListProductInCard(){
+      return this.$store.state.product.listProductInCard;
+    },
+    ...mapGetters({
+      computedCountListProductInCard: 'product/countListProductInCard'
+    })
   },
   watch: {
     "$route.path"(value) {
