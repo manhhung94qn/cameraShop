@@ -97,7 +97,7 @@
                   </div>
                 </template>
                 <p
-                  v-if="listProductInCard.length == 0"
+                  v-if="computedCountListProductInCard == 0"
                   class="bg-color-accent ma-0 pa-3"
                 >Giỏ hàng của bạn vẫn chưa có sản phẩm nào.</p>
                 <div v-else>
@@ -343,6 +343,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -389,40 +390,6 @@ export default {
           icon: "mdi-key-outline",
           to: "/test",
           type: 1
-        }
-      ],
-      listProductInCard: [
-        {
-          id: 1,
-          url: "/images/logo.png",
-          title: "Camera Wifi 2412",
-          quatity: 1
-        },
-        {
-          id: 2,
-          url: "/images/logo.png",
-          title:
-            "Camera thường 2412 Camera thường 2412 Camera thường 2412 Camera thường 2412",
-          quatity: 3
-        },
-        {
-          id: 3,
-          url: "/images/logo.png",
-          title: "Camera xịn 2412",
-          quatity: 2
-        },
-        {
-          id: 4,
-          url: "/images/logo.png",
-          title: "Camera ngon 2412",
-          quatity: 5
-        },
-        {
-          id: 5,
-          url: "/images/logo.png",
-          title:
-            "Camera thường 2412 Camera thường 2412 Camera thường 2412 Camera thường 2412",
-          quatity: 1
         }
       ],
       items: [
@@ -476,11 +443,11 @@ export default {
     getListMenuByType(type) {
       return this.listMenuTop.filter(x => x.type === type);
     },
-    deleteProductFromShopCard(item) {
-      let i = this.listProductInCard.indexOf(item);
-      if (i >= 0) this.listProductInCard.splice(i, 1);
-      return;
-    },
+    // deleteProductFromShopCard(item) {
+    //   let i = this.listProductInCard.indexOf(item);
+    //   if (i >= 0) this.listProductInCard.splice(i, 1);
+    //   return;
+    // },
     changeIshowMenu(status) {
       if (this.$route.path == "/") return;
       if (status === this.computedIsShowListMenu) return;
@@ -492,18 +459,21 @@ export default {
       } else {
         this.$store.commit("view/setIsShowListMenu", { value: status });
       }
-    }
+    },
+    ...mapActions({
+      deleteProductFromShopCard: 'product/deleteItemInCard'
+    })
   },
   computed: {
-    computedCountListProductInCard() {
-      return this.listProductInCard.length;
-    },
     computedIsShowListMenu() {
       return this.$store.state.view.isShowListMenu;
     },
     computedListProductInCard(){
       return this.$store.state.product.listProductInCard;
-    }
+    },
+    ...mapGetters({
+      computedCountListProductInCard: 'product/countListProductInCard'
+    })
   },
   watch: {
     "$route.path"(value) {

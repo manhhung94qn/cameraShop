@@ -38,5 +38,19 @@ export const state = () => ({
 export const mutations = {
     setListProductInCard(state, payload) {
         state.listProductInCard = payload.data
+    },
+    setListProductInCard(state, payload) {
+        state.listProductInCard = payload.data;
+    }
+};
+
+export const getters = {
+    countListProductInCard: state => state.listProductInCard.length
+}
+
+export const actions = {
+    deleteItemInCard: ({commit, state}, payload) => {
+        let data = [...state.listProductInCard].filter(x=>x.id != payload.id);
+        commit('setListProductInCard',{data});
     }
 }
