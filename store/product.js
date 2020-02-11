@@ -1,38 +1,5 @@
 export const state = () => ({
-    listProductInCard: [
-        {
-            id: 1,
-            url: "/images/logo.png",
-            title: "Camera Wifi 2412",
-            quatity: 1
-        },
-        {
-            id: 2,
-            url: "/images/logo.png",
-            title:
-                "Camera thường 2412 Camera thường 2412 Camera thường 2412 Camera thường 2412",
-            quatity: 3
-        },
-        {
-            id: 3,
-            url: "/images/logo.png",
-            title: "Camera xịn 2412",
-            quatity: 2
-        },
-        {
-            id: 4,
-            url: "/images/logo.png",
-            title: "Camera ngon 2412",
-            quatity: 5
-        },
-        {
-            id: 5,
-            url: "/images/logo.png",
-            title:
-                "Camera thường 2412 Camera thường 2412 Camera thường 2412 Camera thường 2412",
-            quatity: 1
-        }
-    ]
+    listProductInCard: []
 });
 
 export const mutations = {
@@ -49,8 +16,25 @@ export const getters = {
 }
 
 export const actions = {
-    deleteItemInCard: ({commit, state}, payload) => {
-        let data = [...state.listProductInCard].filter(x=>x.id != payload.id);
-        commit('setListProductInCard',{data});
+    deleteItemInCard: ({ commit, state }, payload) => {
+        let data = [...state.listProductInCard].filter(x => x.id != payload.id);
+        commit('setListProductInCard', { data });
+    },
+    addItemInCard: ({ commit, state }, payload) => {
+        let data;
+        let itemPre = state.listProductInCard.find(x => x.id === payload.id);
+        if (itemPre) {
+            let newItem = {
+                quatity: itemPre.quatity + 1,
+                id: itemPre.id,
+                imageSrc: itemPre.imageSrc,
+                title: itemPre.title
+            }
+            let listOld = state.listProductInCard;
+            data = [newItem, ...listOld.filter(x => x.id !== payload.id)];
+        } else {
+            data = [payload, ...state.listProductInCard]
+        };
+        commit('setListProductInCard', { data });
     }
 }

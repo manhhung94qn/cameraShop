@@ -106,7 +106,7 @@
                       <template v-for="(item,i) in computedListProductInCard">
                         <v-list-item :key="item.id">
                           <v-list-item-avatar>
-                            <v-img :src="item.url"></v-img>
+                            <v-img :src="item.imageSrc"></v-img>
                           </v-list-item-avatar>
                           <v-list-item-content>
                             <v-list-item-title class="text-truncate">{{item.title}}</v-list-item-title>
