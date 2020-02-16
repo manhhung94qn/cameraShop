@@ -35,7 +35,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "~/plugins/bootstrap.js", { src: 'plugins/owl.js', ssr: false }
+    "~/plugins/bootstrap.js",{src: 'plugins/owl.js', ssr: false}, "~/plugins/vee-validate"
   ],
   /*
   ** Nuxt.js dev-modules
@@ -59,26 +59,7 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://localhost:3000/api'
-  },
-  // Add Author
-  auth: {
-    redirect: {
-      callback: '/login'
-    },
-    strategies: {
-      endpoints: {
-        login: { url: '/login', method: 'post', propertyName: 'token' },
-        logout: false,
-        user: { url: '/login', method: 'get', propertyName: 'data' },
-      },
-      tokenRequired: true,
-      tokenType: 'Bearer',
-      google: {
-        client_id:
-          '849979619698-5i6vhjq6lcf47snoa1162lia5afmu3l7.apps.googleusercontent.com'
-      },
-    }
+    baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
   },
   /*
   ** vuetify module configuration
@@ -131,6 +112,9 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
+   transpile: [
+    "vee-validate/dist/rules"
+  ],
     vendor: ["jquery"],
     plugins: [
       new webpack.ProvidePlugin({

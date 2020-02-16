@@ -388,7 +388,7 @@ export default {
         {
           title: "Đăng ký",
           icon: "mdi-key-outline",
-          to: "/test",
+          to: "/account/signup",
           type: 1
         }
       ],

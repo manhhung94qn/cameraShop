@@ -1,6 +1,6 @@
 <template>
     <div>
-         <v-btn small @click="$auth.loginWith('google')">Normal</v-btn>
+        signin page
     </div>
 </template>
 
