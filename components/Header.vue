@@ -382,13 +382,13 @@ export default {
         {
           title: "Đăng nhập",
           icon: "mdi-account-key-outline",
-          to: "/test",
+          to: "/login",
           type: 1
         },
         {
           title: "Đăng ký",
           icon: "mdi-key-outline",
-          to: "/test",
+          to: "/account/signup",
           type: 1
         }
       ],

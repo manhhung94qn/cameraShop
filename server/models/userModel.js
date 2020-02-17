@@ -11,15 +11,11 @@ const userSchema = new Schema({
     name: {
         first: {
             type: String,
-            required: true
+            required: false
         },
         last: {
             type: String,
-            required: true
-        },
-        nickname: {
-            type: String,
-            unique: true
+            required: false
         }
     },
     username: {
@@ -52,6 +48,18 @@ const userSchema = new Schema({
             default: 'Mr.'
         }
     },
+    facebook: {
+        id: String,
+        token: String,
+        email: String,
+        name: String
+    },
+    google: {
+        id: String,
+        token: String,
+        email: String,
+        name: String
+    },
     avatar: {
         type: String,
         default: '79bc966c53a22b2901e7d3513116dca0.png'
@@ -77,29 +85,33 @@ const userSchema = new Schema({
             required: true
         }
     }],
-    postHistory: [
+    productHistory: [
         {
-            postId: {
+            productId: {
                 type: Schema.Types.ObjectId,
                 required: true
             },
-            postTitle: {
+            productTitle: {
                 title: String
             },
-            postDesciption: {
+            productDesciption: {
                 type: String
             },
-            postAvatar : {
+            productAvatar : {
                 type: String
             }
         }
     ],
-    series: [
+    address: [
         {
-            title: {
-                type: String,
-                required: true
-            }
+            cityId: String,
+            cityName: String,
+            districtId: String,
+            districtName: String,
+            wardId: String,
+            wardName: String,
+            detail: String,
+            default: Boolean
         }
     ]
 }, {

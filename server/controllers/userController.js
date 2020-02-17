@@ -7,19 +7,17 @@ const auth = require('../middleware/authMiddleware');
 const createNewUser = async (req,res)=>{
     try {
         if(await User.exists({
-            $or: [{email: req.body.email.toLowerCase()},{username: req.body.username.toLowerCase()},{'name.nickname': req.body.name.nickname}]
+            $or: [{email: req.body.email.toLowerCase()},{username: req.body.username.toLowerCase()}]
         })){
             throw "Email or Username or Nickname is already exists";
         }
         const user = new User(req.body);
-        if(!user.name.nickname){
-            user.name.nickname = user.name.first;
-        }
+        
         await user.save();
         const token = await user.generateAuthToken();
-        res.status(201).send({ _id: user._id, token });
+        
+        res.status(201).send({ _id: user._id, username: user.username, token});
     } catch (error) {
-        console.log(error);
         res.status(400).send(error);
     }
 }
@@ -142,6 +140,11 @@ router
     .route('/logout/:type?')
     .get(userLogout);
 
+router
+    .route('/test')
+    .get((req,res)=>{
+        res.send('OKI test')
+    })
 //router.get('/user_list', listUser);
 
 module.exports = router;

@@ -35,7 +35,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "~/plugins/bootstrap.js",{src: 'plugins/owl.js', ssr: false}
+    "~/plugins/bootstrap.js",{src: 'plugins/owl.js', ssr: false}, "~/plugins/vee-validate"
   ],
   /*
   ** Nuxt.js dev-modules
@@ -52,12 +52,14 @@ module.exports = {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
   },
   /*
   ** vuetify module configuration
@@ -110,6 +112,9 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
+   transpile: [
+    "vee-validate/dist/rules"
+  ],
     vendor: ["jquery"],
     plugins: [
       new webpack.ProvidePlugin({
