@@ -1,3 +1,3 @@
-export default function ({ $axios, redirect, $store }) {
-    
-  }
+export default function ({ $axios, redirect, store }) {
+  
+}
