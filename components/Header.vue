@@ -382,7 +382,7 @@ export default {
         {
           title: "Đăng nhập",
           icon: "mdi-account-key-outline",
-          to: "/login",
+          to: "/account/signin",
           type: 1
         },
         {

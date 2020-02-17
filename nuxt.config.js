@@ -35,7 +35,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "~/plugins/bootstrap.js",{src: 'plugins/owl.js', ssr: false}, "~/plugins/vee-validate"
+    "~/plugins/bootstrap.js",{src: 'plugins/owl.js', ssr: false}, "~/plugins/vee-validate","~/plugins/axios"
   ],
   /*
   ** Nuxt.js dev-modules

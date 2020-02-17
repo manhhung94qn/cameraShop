@@ -185,13 +185,14 @@ export default {
           default: true
         }] : []
       });
-      localStorage.setItem(KEY_LOCAL_STORAGE_USE_ID,user._id);
+      localStorage.setItem(KEY_LOCAL_STORAGE_USE_ID,user.id);
       localStorage.setItem(KEY_LOCAL_STORAGE_TOKEN,user.token);
       this.$store.commit('user/setUserInfor',{
-          id: user._id,
+          id: user.id,
           username: user.username,
           token: user.token
       });
+      this.$axios.setToken(user.token, 'Bearer');
     }
   },
   watch: {

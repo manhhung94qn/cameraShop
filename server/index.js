@@ -4,12 +4,14 @@ const { Nuxt, Builder } = require('nuxt')
 const app = express()
 const router = require('./routers.js');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 
 const passport = require('passport');
 const querystring = require('querystring');
 
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 require('./configs/db');
 // Import and Set Nuxt.js options
