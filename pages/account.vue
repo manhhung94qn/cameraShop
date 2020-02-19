@@ -1,7 +1,7 @@
 <template>
   <div class="sign-up">
     <v-row>
-      <v-col cols="12" md="3" class="pt-0" outlined>
+      <v-col cols="12" md="3" class="pt-0 d-md-none" outlined>
         <v-list-group class="list-content" v-model="computedIsShowListAccountMenu" no-action>
           <template v-slot:activator>
             <v-list-item-content>
@@ -36,7 +36,40 @@
           </v-list-item>
         </v-list-group>
       </v-col>
-      <v-col cols="12" md="9">
+
+      <v-col cols="12" md="3" class="pt-0 d-none d-md-block" outlined>
+        <v-list class="list-content notRadius" no-action>
+          <v-subheader>
+            <nuxt-link to="/account">Tài khoản</nuxt-link>
+          </v-subheader>
+          <v-divider></v-divider>
+          <v-list-item active-class="deep-purple--text text--accent-4" class="pl-9" link>
+            <v-list-item-content>
+              <v-list-item-title>
+                <nuxt-link to="/account/signup">Đăng ký</nuxt-link>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider class="ml-9"></v-divider>
+          <v-list-item active-class="deep-purple--text text--accent-4" class="pl-9" link>
+            <v-list-item-content>
+              <v-list-item-title>
+                <nuxt-link to="/account/signin">Đăng nhập</nuxt-link>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider class="ml-9"></v-divider>
+          <v-list-item active-class="deep-purple--text text--accent-4" class="pl-9" link>
+            <v-list-item-content>
+              <v-list-item-title>
+                <nuxt-link to="/">Quên mật khẩu</nuxt-link>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-col>
+
+      <v-col cols="12" md="9" lg="5" class="mx-auto">
         <nuxt-child />
       </v-col>
     </v-row>
@@ -55,7 +88,7 @@ export default {
       get() {
         return this.$store.state.view.isShowListAccountMenu;
       },
-      set(value){
+      set(value) {
         this.$store.commit("view/setIsShowListAccountMenu", { value: value });
       }
     }
@@ -66,6 +99,9 @@ export default {
 <style lang="scss" scoped>
 .list-content {
   border: 1px solid var(--v-textInfo-base);
+  &.notRadius{
+    border-radius: 0;
+  }
 }
 .sign-up {
   background-color: white;

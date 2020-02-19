@@ -16,7 +16,17 @@
               v-model="password"
               :error-messages="errors"
               type="password"
+              vid="password"
               label="Mật khẩu"
+            ></v-text-field>
+          </ValidationProvider>
+
+          <ValidationProvider v-slot="{ errors }" name="confirmPassword" rules="confirmed:password">
+            <v-text-field
+              v-model="confirmPassword"
+              :error-messages="errors"
+              type="password"
+              label="Xác nhận mật khẩu"
             ></v-text-field>
           </ValidationProvider>
         </div>
@@ -27,7 +37,7 @@
               <v-expansion-panel-header
                 @click="addAddress = ! addAddress"
                 :disable-icon-rotate="true"
-                class="px-0"
+                class="pa-0"
               >
                 Thêm địa chỉ nhận hàng:
                 <template v-slot:actions>
@@ -104,6 +114,9 @@
           </v-expansion-panels>
         </div>
 
+        <div class="px-3">
+          <v-checkbox v-model="saveStateLogin" label="Lưu trạng thái đăng nhập"></v-checkbox>
+        </div>
         <div class="text-center mb-3">
           <v-btn outlined @click="onSubmitSignUp">Đăng ký</v-btn>
         </div>
@@ -127,8 +140,11 @@
 </template>
 
 <script>
-import { ValidationObserver, ValidationProvider } from "vee-validate";
-import {KEY_LOCAL_STORAGE_USE_ID,KEY_LOCAL_STORAGE_TOKEN} from '@/configs/key'
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+import {
+  KEY_LOCAL_STORAGE_USE_ID,
+  KEY_LOCAL_STORAGE_TOKEN
+} from "@/configs/key";
 const listCity = require("@/assets/address.json");
 
 export default {
@@ -143,7 +159,9 @@ export default {
     name: "",
     email: "",
     password: "",
-    username: '',
+    confirmPassword: "",
+    username: "",
+    saveStateLogin: false,
     cityId: "",
     cityName: "",
     listCity: listCity.map(x => {
@@ -170,29 +188,41 @@ export default {
       });
     },
     async createNewUser() {
+      this.$store.commit("view/setIsOverlay", {
+        value: true
+      });
       let user = await this.$axios.$post("/user", {
         email: this.email,
         username: this.username,
         password: this.password,
-        address: this.addAddress ? [{
-          cityId: this.cityId,
-          cityName: this.cityName,
-          districtId: this.districtId,
-          districtName: this.districtName,
-          wardId: this.wardsId,
-          wardName: this.wardName,
-          detail: this.detail,
-          default: true
-        }] : []
+        saveStateLogin: this.saveStateLogin,
+        address: this.addAddress
+          ? [
+              {
+                cityId: this.cityId,
+                cityName: this.cityName,
+                districtId: this.districtId,
+                districtName: this.districtName,
+                wardId: this.wardsId,
+                wardName: this.wardName,
+                detail: this.detail,
+                default: true
+              }
+            ]
+          : []
       });
-      localStorage.setItem(KEY_LOCAL_STORAGE_USE_ID,user.id);
-      localStorage.setItem(KEY_LOCAL_STORAGE_TOKEN,user.token);
-      this.$store.commit('user/setUserInfor',{
-          id: user.id,
-          username: user.username,
-          token: user.token
+      localStorage.setItem(KEY_LOCAL_STORAGE_USE_ID, user.id);
+      localStorage.setItem(KEY_LOCAL_STORAGE_TOKEN, user.token);
+      this.$store.commit("user/setUserInfor", {
+        id: user.id,
+        username: user.username,
+        isLogined: true
       });
-      this.$axios.setToken(user.token, 'Bearer');
+      this.$axios.setToken(user.token, "Bearer");
+      this.$store.commit("view/setIsOverlay", {
+        value: false
+      });
+      this.$router.go(-1);
     }
   },
   watch: {

@@ -10,7 +10,7 @@ export const mutations = {
     setUserInfor(state, payload) {
         state.id = payload.id;
         state.username = payload.username;
-        isLogined = payload.isLogined
+        state.isLogined = payload.isLogined
     },
     setToken(state,payload){
         state.token = payload.value

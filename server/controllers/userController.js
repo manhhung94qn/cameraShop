@@ -6,16 +6,19 @@ const auth = require('../middleware/authMiddleware');
 
 const createNewUser = async (req, res) => {
     try {
+        let {email,username,saveStateLogin} = req.body
         if (await User.exists({
             $or: [{ email: req.body.email.toLowerCase() }, { username: req.body.username.toLowerCase() }]
         })) {
-            throw "Email or Username or Nickname is already exists";
+            throw "Email or Username is already exists";
         }
         const user = new User(req.body);
 
         await user.save();
         const token = await user.generateAuthToken();
-        res.cookie('n_token_key', token)
+        if(saveStateLogin){
+            res.cookie('n_token_key', token);
+        }
         res.status(201).send({ id: user._id, username: user.username, token });
     } catch (error) {
         res.status(400).send(error);
@@ -25,14 +28,16 @@ const createNewUser = async (req, res) => {
 //User login
 const userLogin = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password, saveStateLogin } = req.body;
         const user = await User.findByCredentials(username, password);
         if (!user) {
             return res.status(401).send({ error: 'Login failed! Check authentication credentials' });
         }
         const token = await user.generateAuthToken();
         let id = user._id;
-        res.cookie('n_token_key', token)
+        if(saveStateLogin){
+            res.cookie('n_token_key', token);
+        }
         res.send({ token, id });
     } catch (error) {
         res.status(400).send(error);
@@ -41,7 +46,6 @@ const userLogin = async (req, res) => {
 
 //Get infor user 
 const userInfor = async (req, res) => {
-    console.log(req.userId);
     let user = await User.findOne({
         _id: req.userId
     });
@@ -56,7 +60,6 @@ const userInfor = async (req, res) => {
             virtuals: true
         });
         let { username, email, _id } = user;
-        // let baseResult = new BaseResult();
         res.status(200).send({
             success: true,
             data: {
@@ -65,14 +68,6 @@ const userInfor = async (req, res) => {
                 email
             }
         })
-        // baseResult.success(res, {
-        //     _id,
-        //     nickname: nickname || name.first,
-        //     fullName,
-        //     fullUrlAvatar,
-        //     email,
-        //     gender
-        // })
     }
 }
 
