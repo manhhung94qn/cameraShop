@@ -6,7 +6,7 @@ const auth = require('../middleware/authMiddleware');
 
 const createNewUser = async (req, res) => {
     try {
-        let {email,username,saveStateLogin} = req.body
+        let { email, username, saveStateLogin } = req.body
         if (await User.exists({
             $or: [{ email: req.body.email.toLowerCase() }, { username: req.body.username.toLowerCase() }]
         })) {
@@ -16,7 +16,7 @@ const createNewUser = async (req, res) => {
 
         await user.save();
         const token = await user.generateAuthToken();
-        if(saveStateLogin){
+        if (saveStateLogin) {
             res.cookie('n_token_key', token);
         }
         res.status(201).send({ id: user._id, username: user.username, token });
@@ -35,7 +35,7 @@ const userLogin = async (req, res) => {
         }
         const token = await user.generateAuthToken();
         let id = user._id;
-        if(saveStateLogin){
+        if (saveStateLogin) {
             res.cookie('n_token_key', token);
         }
         res.send({ token, id });
@@ -61,12 +61,9 @@ const userInfor = async (req, res) => {
         });
         let { username, email, _id } = user;
         res.status(200).send({
-            success: true,
-            data: {
-                id: _id,
-                username,
-                email
-            }
+            id: _id,
+            username,
+            email
         })
     }
 }
@@ -111,11 +108,13 @@ const userLogout = async (req, res) => {
 // Logout in this device
 const userLogoutInThisDevice = async (req, res) => {
     try {
-        req.user.tokens = req.user.tokens.filter((token) => {
-            return token.token != req.token
+        const user = await User.findOne({ _id: req.userId});
+        user.tokens = user.tokens.filter((x) => {
+            return x.token != req.token
         })
-        await req.user.save()
-        res.send()
+        await user.save();
+        res.clearCookie('n_token_key');
+        res.status(200).send({})
     } catch (error) {
         res.status(500).send(error)
     }
@@ -141,13 +140,13 @@ router
 router
     .route('/me')
     .post(userLogin)
-    .get(auth.auth ,userInfor)
+    .get(auth.auth, userInfor)
     .patch(changePassword)
     .put(changeInfor);
 
 router
     .route('/logout/:type?')
-    .get(userLogout);
+    .get(auth.auth,userLogout);
 
 router
     .route('/test')

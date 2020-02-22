@@ -211,18 +211,18 @@ export default {
             ]
           : []
       });
-      localStorage.setItem(KEY_LOCAL_STORAGE_USE_ID, user.id);
-      localStorage.setItem(KEY_LOCAL_STORAGE_TOKEN, user.token);
       this.$store.commit("user/setUserInfor", {
         id: user.id,
         username: user.username,
         isLogined: true
       });
-      this.$axios.setToken(user.token, "Bearer");
       this.$store.commit("view/setIsOverlay", {
         value: false
       });
       this.$router.go(-1);
+      this.$toast.global.n_success({
+          message: 'Đăng ký thành công.'
+      });
     }
   },
   watch: {

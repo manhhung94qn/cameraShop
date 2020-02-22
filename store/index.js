@@ -2,22 +2,19 @@
 
 export const actions = {
     async nuxtServerInit({ commit }, { req, app }) {
-        if (req.cookies.n_user_id && req.cookies.n_token_key) {
-            commit('user/setToken', {
-                value: req.cookies.n_token_key
-            });
+        if (req.cookies.n_token_key) {
             app.$axios.setToken(req.cookies.n_token_key,'Bearer')    
 
             try {
-                let user = await app.$axios.get('/user/me');
-                if(user.id && user.username){
+                let {data}  = await app.$axios.get('/user/me');
+
+                if(data.id && data.username){
                     commit('user/setUserInfor',{
-                        id: user.id,
-                        username: user.username,
+                        id: data.id,
+                        username: data.username,
                         isLogined: true
                     })
                 }
-                console.log(user);
             } catch (error) {
                 console.log('Người dùng chưa đăng nhập');
             }

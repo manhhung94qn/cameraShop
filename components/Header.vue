@@ -12,15 +12,25 @@
             </ul>
 
             <ul class="topmenu topmenu-link d-none d-lg-flex">
-              <li class="ml-4">
+              <li class="ml-4" v-if="!computedIsLogined">
                 <nuxt-link class="d-flex topmenu-link" to="/account/signin">
                   <v-icon small class="mr-1 topmenu-link-icon">mdi-account-key-outline</v-icon>Đăng nhập
                 </nuxt-link>
               </li>
-              <li class="ml-4">
+              <li class="ml-4" v-if="!computedIsLogined">
                 <nuxt-link class="d-flex topmenu-link" to="/account/signup">
                   <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Đăng ký
                 </nuxt-link>
+              </li>
+              <li class="ml-4" v-if="computedIsLogined">
+                <nuxt-link class="d-flex topmenu-link" to="/account/signup">
+                  <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Tài khoản
+                </nuxt-link>
+              </li>
+              <li class="ml-4" v-if="computedIsLogined">
+                <div class="d-flex topmenu-link" @click="onLogout">
+                  <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Đăng xuất
+                </div>
               </li>
               <li class="ml-4">
                 <nuxt-link class="d-flex topmenu-link" to="/inspire">
@@ -40,18 +50,32 @@
                   <v-icon class="mr-2" v-on="on">mdi-account-circle</v-icon>
                 </template>
                 <v-list class="bg-color-secondary-im">
-                  <v-list-item>
+                  <v-list-item v-if="!computedIsLogined">
                     <v-list-item-title>
                       <nuxt-link class="topmenu-link d-flex align-center" to="/account/signin">
                         <v-icon small class="mr-1">mdi-account-key-outline</v-icon>Đăng nhập
                       </nuxt-link>
                     </v-list-item-title>
                   </v-list-item>
-                  <v-list-item>
+                  <v-list-item v-if="!computedIsLogined">
                     <v-list-item-title>
                       <nuxt-link class="topmenu-link d-flex align-center" to="/account/signup">
                         <v-icon small class="mr-1">mdi-key-outline</v-icon>Đăng ký
                       </nuxt-link>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item v-if="computedIsLogined">
+                    <v-list-item-title>
+                      <nuxt-link class="topmenu-link d-flex align-center" to="/account/signup">
+                        <v-icon small class="mr-1">mdi-key-outline</v-icon>Tài khoản
+                      </nuxt-link>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item v-if="computedIsLogined">
+                    <v-list-item-title>
+                      <div class="topmenu-link d-flex align-center" @click="onLogout">
+                        <v-icon small class="mr-1">mdi-key-outline</v-icon>Đăng xuất
+                      </div>
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>
@@ -380,7 +404,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -396,6 +420,30 @@ export default {
   },
   created() {},
   methods: {
+    async onLogout() {
+      this.setIsOverlay({
+        value: true
+      });
+      try {
+        await this.$axios.$get("/user/logout");
+        this.setUserInfor({
+          id: null,
+          username: null,
+          isLogined: false
+        });
+        this.setIsOverlay({
+          value: false
+        });
+        this.$toast.global.n_success({
+          message: 'Đăng xuất thành công.'
+        });
+      } catch (error) {
+        console.log(error);
+        this.setIsOverlay({
+          value: false
+        });
+      }
+    },
     changeIshowMenu(status) {
       if (this.$route.path == "/") return;
       if (status === this.computedIsShowListMenu) return;
@@ -410,6 +458,10 @@ export default {
     },
     ...mapActions({
       deleteProductFromShopCard: "product/deleteItemInCard"
+    }),
+    ...mapMutations({
+      setUserInfor: "user/setUserInfor",
+      setIsOverlay: "view/setIsOverlay"
     })
   },
   computed: {
@@ -418,6 +470,9 @@ export default {
     },
     computedListProductInCard() {
       return this.$store.state.product.listProductInCard;
+    },
+    computedIsLogined() {
+      return this.$store.state.user.isLogined;
     },
     ...mapGetters({
       computedCountListProductInCard: "product/countListProductInCard"

@@ -83,8 +83,6 @@ export default {
         password: this.password,
         saveStateLogin: this.saveStateLogin
       });
-      console.log(user);
-
       this.$store.commit("user/setUserInfor", {
         id: user.id,
         username: this.username,
@@ -95,6 +93,9 @@ export default {
         value: false
       });
       this.$router.go(-1);
+      this.$toast.global.n_success({
+        message: "Đăng nhập thành công."
+      });
     }
   }
 };

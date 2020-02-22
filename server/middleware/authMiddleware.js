@@ -4,7 +4,8 @@ const User = require('../models/userModel')
 const auth = async(req, res, next) => {
     
     try {
-        const token = req.header('Authorization').replace('Bearer ', '')
+        // const token = req.cookies ('Authorization').replace('Bearer ', '');
+        const token = req.cookies.n_token_key;
         const data = jwt.verify(token, '29630ad05c7df38698f0ada5f5893d71')
         const user = await User.findOne({ _id: data._id, 'tokens.token': token },'_id')
         if (!user) {
@@ -14,6 +15,8 @@ const auth = async(req, res, next) => {
         req.token = token
         next()
     } catch (error) {
+        console.log(error);
+        
         res.status(400).send({ error: 'Not authorized to access this resource' })
     }
 }
