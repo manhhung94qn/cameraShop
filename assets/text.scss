@@ -5,6 +5,9 @@
         }
         &-accent {
             color: var(--v-textAccent-base);
+            &-im {
+                color: var(--v-textAccent-base) !important;
+            }
         }
         &-secondary {
             color: var(--v-textSecondary-base);

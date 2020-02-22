@@ -23,12 +23,12 @@
                 </nuxt-link>
               </li>
               <li class="ml-4" v-if="computedIsLogined">
-                <nuxt-link class="d-flex topmenu-link" to="/account/signup">
+                <nuxt-link class="d-flex topmenu-link" to="/account">
                   <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Tài khoản
                 </nuxt-link>
               </li>
               <li class="ml-4" v-if="computedIsLogined">
-                <div class="d-flex topmenu-link" @click="onLogout">
+                <div style="cursor: pointer;" class="d-flex topmenu-link" @click="onLogout">
                   <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Đăng xuất
                 </div>
               </li>
@@ -52,29 +52,29 @@
                 <v-list class="bg-color-secondary-im">
                   <v-list-item v-if="!computedIsLogined">
                     <v-list-item-title>
-                      <nuxt-link class="topmenu-link d-flex align-center" to="/account/signin">
+                      <nuxt-link class="topmenu-link d-flex align-center text-color-accent-im" to="/account/signin">
                         <v-icon small class="mr-1">mdi-account-key-outline</v-icon>Đăng nhập
                       </nuxt-link>
                     </v-list-item-title>
                   </v-list-item>
                   <v-list-item v-if="!computedIsLogined">
                     <v-list-item-title>
-                      <nuxt-link class="topmenu-link d-flex align-center" to="/account/signup">
+                      <nuxt-link class="topmenu-link d-flex align-center text-color-accent-im" to="/account/signup">
                         <v-icon small class="mr-1">mdi-key-outline</v-icon>Đăng ký
                       </nuxt-link>
                     </v-list-item-title>
                   </v-list-item>
                   <v-list-item v-if="computedIsLogined">
                     <v-list-item-title>
-                      <nuxt-link class="topmenu-link d-flex align-center" to="/account/signup">
+                      <nuxt-link class="topmenu-link d-flex align-center text-color-accent-im" to="/account">
                         <v-icon small class="mr-1">mdi-key-outline</v-icon>Tài khoản
                       </nuxt-link>
                     </v-list-item-title>
                   </v-list-item>
                   <v-list-item v-if="computedIsLogined">
                     <v-list-item-title>
-                      <div class="topmenu-link d-flex align-center" @click="onLogout">
-                        <v-icon small class="mr-1">mdi-key-outline</v-icon>Đăng xuất
+                      <div class="topmenu-link d-flex align-center text-color-accent-im" @click="onLogout">
+                        <v-icon small class="mr-1  text-color-accent-im">mdi-key-outline</v-icon>Đăng xuất
                       </div>
                     </v-list-item-title>
                   </v-list-item>
@@ -435,7 +435,7 @@ export default {
           value: false
         });
         this.$toast.global.n_success({
-          message: 'Đăng xuất thành công.'
+          message: "Đăng xuất thành công."
         });
       } catch (error) {
         console.log(error);
@@ -507,12 +507,12 @@ export default {
   }
 
   .topmenu-link {
-    color: var(--v-textInfo-base);
+    color: var(--v-textInfo-base) !important;
     &:hover {
-      color: var(--v-textAccent-base);
+      color: var(--v-textAccent-base) !important;
     }
     &.nuxt-link-exact-active {
-      color: var(--v-textAccent-base);
+      color: var(--v-textAccent-base) !important;
     }
   }
   .search-pc {
