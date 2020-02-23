@@ -46,30 +46,60 @@ const userLogin = async (req, res) => {
 
 //Get infor user 
 const userInfor = async (req, res) => {
-    let user = await User.findOne({
-        _id: req.userId
-    });
-    if (!user) {
-        res.status(400).send({
-            success: false,
-            error: "Người dùng không tồn tại"
+    try {
+        const user = await User.findOne({
+            _id: req.userId
         });
-        return;
-    } else {
+        if (!user) {
+            throw "Người dùng không tồn tại."
+        }
         user = user.toObject({
             virtuals: true
         });
-        let { username, email, _id } = user;
+        let { fullname, gender, username, phoneNumber, birthday, email, _id } = user;
         res.status(200).send({
             id: _id,
             username,
+            fullname,
+            gender: gender.code,
+            phoneNumber,
+            birthday,
             email
         })
+    } catch (error) {
+        res.status(500).send(error);
     }
 }
 
-const changeInfor = async (req, res) => {
-    res.send("Is watting...")
+const updateInfor = async (req, res) => {
+    try {
+        const { fullname, gender, phoneNumber, birthday, changePassword, password, confirmPassword } = req.body;
+        let user = await User.findOne({
+            _id: req.userId
+        });
+        user.fullname = fullname;
+        user.gender.code = gender;
+        user.phoneNumber = phoneNumber;
+        user.birthday = birthday;
+        if(changePassword){
+            const isPasswordMatch = await bcrypt.compare(password, user.password)
+            if(!isPasswordMatch){
+                throw "Mật khẩu không đúng";
+            };
+            if(password != confirmNewPassword){
+                throw "Xác nhận mật khẩu không đúng";
+            }
+            user.password = password;
+        }
+        user.save();
+        res.status(200).send({
+            fullname,
+            gender,
+            phoneNumber
+        });
+    } catch (error) {
+        res.status(500).send(error);
+    }
 }
 
 // Change password user by user
@@ -108,7 +138,7 @@ const userLogout = async (req, res) => {
 // Logout in this device
 const userLogoutInThisDevice = async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.userId});
+        const user = await User.findOne({ _id: req.userId });
         user.tokens = user.tokens.filter((x) => {
             return x.token != req.token
         })
@@ -142,11 +172,11 @@ router
     .post(userLogin)
     .get(auth.auth, userInfor)
     .patch(changePassword)
-    .put(changeInfor);
+    .put(auth.auth, updateInfor);
 
 router
     .route('/logout/:type?')
-    .get(auth.auth,userLogout);
+    .get(auth.auth, userLogout);
 
 router
     .route('/test')

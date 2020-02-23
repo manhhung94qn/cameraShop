@@ -151,7 +151,7 @@ export default {
       activeList: false,
       username: "",
       password: "",
-      saveStateLogin: false
+      saveStateLogin: true
     };
   },
 //   computed: {

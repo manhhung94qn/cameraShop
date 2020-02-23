@@ -252,7 +252,7 @@ export default {
       password: "",
       confirmPassword: "",
       username: "",
-      saveStateLogin: false,
+      saveStateLogin: true,
       cityId: "",
       cityName: "",
       listCity: listCity.map(x => {

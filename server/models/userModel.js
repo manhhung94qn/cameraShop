@@ -8,20 +8,17 @@ const HOST = process.env.HOST;
 const PORT = process.env.PORT;
 
 const userSchema = new Schema({
-    name: {
-        first: {
-            type: String,
-            required: false
-        },
-        last: {
-            type: String,
-            required: false
-        }
+    fullname: {
+        type: String,
+        required: false
     },
     username: {
         type: String,
         lowercase: true,
         required: true
+    },
+    phoneNumber: {
+        type: String
     },
     email: {
         type: String,
@@ -42,11 +39,10 @@ const userSchema = new Schema({
         code: {
             type: Number,
             default: 3
-        },
-        title: {
-            type: String,
-            default: 'Mr.'
         }
+    },
+    birthday: {
+        type: Date
     },
     facebook: {
         id: String,
@@ -119,10 +115,6 @@ const userSchema = new Schema({
     autoCreate: false,
     collection: 'User'
 })
-
-userSchema.virtual('fullName').get(function () {
-    return this.name.last + ' ' + this.name.first;
-});
 
 userSchema.virtual('fullUrlAvatar').get(function () {
     return HOST + ':' + PORT + '/icons/avatars/' + (this.avatar || '79bc966c53a22b2901e7d3513116dca0.png')
