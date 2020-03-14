@@ -8,7 +8,7 @@ const createNewUser = async (req, res) => {
     try {
         let { email, username, saveStateLogin } = req.body
         if (await User.exists({
-            $or: [{ email: req.body.email.toLowerCase() }, { username: req.body.username.toLowerCase() }]
+            $or: [{ email: email.toLowerCase() }, { username: username.toLowerCase() }]
         })) {
             throw "Email or Username is already exists";
         }
@@ -17,6 +17,11 @@ const createNewUser = async (req, res) => {
         await user.save();
         const token = await user.generateAuthToken();
         if (saveStateLogin) {
+            res.cookie('n_token_key', token,
+            {
+                maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
+            });
+        } else {
             res.cookie('n_token_key', token);
         }
         res.status(201).send({ id: user._id, username: user.username, token });
@@ -36,7 +41,11 @@ const userLogin = async (req, res) => {
         const token = await user.generateAuthToken();
         let id = user._id;
         if (saveStateLogin) {
-            res.cookie('n_token_key', token);
+            let dateNow = new Date();
+            res.cookie('n_token_key', token,
+            {
+                maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
+            });
         }
         res.send({ token, id });
     } catch (error) {
@@ -46,8 +55,9 @@ const userLogin = async (req, res) => {
 
 //Get infor user 
 const userInfor = async (req, res) => {
+    console.log(req.ip);
     try {
-        const user = await User.findOne({
+        let user = await User.findOne({
             _id: req.userId
         });
         if (!user) {

@@ -149,10 +149,10 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.generateAuthToken = async function () {
     // Generate an auth token for the user
     const user = this;
-    const token = jwt.sign({ _id: user._id }, '29630ad05c7df38698f0ada5f5893d71')
-    user.tokens = user.tokens.concat({ token })
-    await user.save()
-    return token
+    const token = jwt.sign({ _id: user._id }, '29630ad05c7df38698f0ada5f5893d71');
+    user.tokens = user.tokens.concat({ token });
+    await user.save();
+    return token;
 }
 
 userSchema.statics.findByCredentials = async (username, password) => {
@@ -167,6 +167,12 @@ userSchema.statics.findByCredentials = async (username, password) => {
         throw new Error({ error: 'Invalid login credentials' })
     }
     return user
+}
+
+userSchema.statics.findByFacebookId = async (facebookId) => {
+    return await User.findOne({
+        'facebook.id': facebookId
+    });
 }
 
 const User = mongoose.model('User', userSchema,'User');

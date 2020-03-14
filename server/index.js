@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 
 const passport = require('passport');
-const querystring = require('querystring');
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -25,37 +24,39 @@ app.use(function (req, res, next) {
 
 app.use(passport.initialize());
 
-require('./configs/passport')
+require('./configs/passport');
 
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['email', 'profile', 'openid'] }));
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login', session: false }),
-  function (req, res) {
-    const query = querystring.stringify({
-      "id": req.user.id,
-      "name": req.user.displayName
+// app.get('/auth/google',
+//   passport.authenticate('google', { scope: ['email', 'profile', 'openid'] }));
+// app.get('/auth/google/callback',
+//   passport.authenticate('google', { failureRedirect: '/login', session: false }),
+//   function (req, res) {
+//     const query = querystring.stringify({
+//       "id": req.user.id,
+//       "name": req.user.displayName
 
-    });
-    res.redirect('http://localhost:3000/auth/login/?' + query)
-  });
+//     });
+//     res.redirect('http://localhost:3000/auth/login/?' + query)
+//   });
 
 
 
-app.get('/auth/facebook',
-  passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-  function (req, res) {
-    const query = querystring.stringify({
-      "id": req.user.id,
-      "name": req.user.displayName
-    });
-    res.redirect('http://localhost:3000/auth/login/?' + query)
-  });
+// app.get('/auth/facebook',
+//   passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
+// app.get('/auth/facebook/callback',
+//   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+//   function (req, res) {
+//     const query = querystring.stringify({
+//       "id": req.user.id,
+//       "name": req.user.displayName
+//     });
+//     res.redirect('http://localhost:3000/auth/login/?' + query)
+//   });
+
 
 router(app);
+
 
 async function start() {
   // Init Nuxt.js
