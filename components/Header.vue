@@ -22,15 +22,13 @@
                   <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Đăng ký
                 </nuxt-link>
               </li>
-              <li class="ml-4" v-if="computedIsLogined">
+              <li class="ml-4 d-flex" v-if="computedIsLogined">
                 <nuxt-link class="d-flex topmenu-link" to="/account">
-                  <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Tài khoản
+                  <v-icon small class="mr-1 topmenu-link-icon">mdi-account-circle</v-icon>{{computedUser.username}}
                 </nuxt-link>
-              </li>
-              <li class="ml-4" v-if="computedIsLogined">
-                <div style="cursor: pointer;" class="d-flex topmenu-link" @click="onLogout">
-                  <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Đăng xuất
-                </div>
+                <span class="d-flex topmenu-link" @click="onLogout">
+                  [Thoát]
+                </span>
               </li>
               <li class="ml-4">
                 <nuxt-link class="d-flex topmenu-link" to="/inspire">
@@ -67,7 +65,7 @@
                   <v-list-item v-if="computedIsLogined">
                     <v-list-item-title>
                       <nuxt-link class="topmenu-link d-flex align-center text-color-accent-im" to="/account">
-                        <v-icon small class="mr-1">mdi-key-outline</v-icon>Tài khoản
+                        <v-icon small class="mr-1">mdi-account-circle</v-icon>{{computedUser.username}}
                       </nuxt-link>
                     </v-list-item-title>
                   </v-list-item>
@@ -474,6 +472,9 @@ export default {
     computedIsLogined() {
       return this.$store.state.user.isLogined;
     },
+    computedUser() {
+      return this.$store.state.user;
+    },
     ...mapGetters({
       computedCountListProductInCard: "product/countListProductInCard"
     })
@@ -508,6 +509,7 @@ export default {
 
   .topmenu-link {
     color: var(--v-textInfo-base) !important;
+    cursor: pointer;
     &:hover {
       color: var(--v-textAccent-base) !important;
     }

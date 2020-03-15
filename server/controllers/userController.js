@@ -17,6 +17,7 @@ const createNewUser = async (req, res) => {
         await user.save();
         const token = await user.generateAuthToken();
         if (saveStateLogin) {
+            let dateNow = new Date();
             res.cookie('n_token_key', token,
             {
                 maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
@@ -66,15 +67,15 @@ const userInfor = async (req, res) => {
         user = user.toObject({
             virtuals: true
         });
-        let { fullname, gender, username, phoneNumber, birthday, email, _id } = user;
+        let { fullname, username, phoneNumber, birthday, email, _id,avatar } = user;
         res.status(200).send({
             id: _id,
             username,
             fullname,
-            gender: gender.code,
             phoneNumber,
             birthday,
-            email
+            email,
+            avatar
         })
     } catch (error) {
         res.status(500).send(error);
@@ -163,9 +164,10 @@ const userLogoutInThisDevice = async (req, res) => {
 // Logout in all device
 const userLogoutAll = async (req, res) => {
     try {
-        req.user.tokens.splice(0, req.user.tokens.length)
-        await req.user.save()
-        res.send()
+        req.user.tokens.splice(0, req.user.tokens.length);
+        await req.user.save();
+        res.clearCookie('n_token_key');
+        res.send();
     } catch (error) {
         res.status(500).send(error)
     }

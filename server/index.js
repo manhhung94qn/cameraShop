@@ -26,35 +26,6 @@ app.use(passport.initialize());
 
 require('./configs/passport');
 
-
-// app.get('/auth/google',
-//   passport.authenticate('google', { scope: ['email', 'profile', 'openid'] }));
-// app.get('/auth/google/callback',
-//   passport.authenticate('google', { failureRedirect: '/login', session: false }),
-//   function (req, res) {
-//     const query = querystring.stringify({
-//       "id": req.user.id,
-//       "name": req.user.displayName
-
-//     });
-//     res.redirect('http://localhost:3000/auth/login/?' + query)
-//   });
-
-
-
-// app.get('/auth/facebook',
-//   passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
-// app.get('/auth/facebook/callback',
-//   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-//   function (req, res) {
-//     const query = querystring.stringify({
-//       "id": req.user.id,
-//       "name": req.user.displayName
-//     });
-//     res.redirect('http://localhost:3000/auth/login/?' + query)
-//   });
-
-
 router(app);
 
 

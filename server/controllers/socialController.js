@@ -10,50 +10,101 @@ router.get('/google',
 
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/login', session: false }),
-    function (req, res) {
-        const query = querystring.stringify({
-            "id": req.user.id,
-            "name": req.user.displayName
-        });
-        res.redirect('http://localhost:3000/auth/login/?' + query)
+    async function (req, res) {
+        const userGo = req.user;
+        const userDb = await User.findByGoogleId(userGo.id);
+        if (userDb) {
+            const token = await userDb.generateAuthToken();
+            let dateNow = new Date();
+            res.cookie('n_token_key', token,
+            {
+                maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
+            });
+        } else {
+            let email = userGo.emails[0].value;
+            let username = userGo.emails[0].value.replace(/\@.+\..+/, '');
+            const userDb2 = await User.findOne({
+                email: email.toLowerCase()
+            });
+            if (userDb2) {
+                userDb2.google.id = userGo.id;
+                const token = await userDb2.generateAuthToken();
+                await userDb2.save();
+                let dateNow = new Date();
+                res.cookie('n_token_key', token,
+                    {
+                        maxAge: new Date(dateNow.getFullYear() + 1, dateNow.getMonth(), dateNow.getDate())
+                    });
+            } else {
+                const user = new User();
+                user.fullname = (userGo.name.familyName || '') + (userGo.name.middleName || '');
+                user.username = username;
+                user.email = email;
+                user.avatar = userGo.photos[0] ? userGo.photos[0].value : '';
+                user.password = 'hungking.IO';
+                user.google.id = userGo.id;
+                await user.save();
+                const token = await user.generateAuthToken();
+                let dateNow = new Date();
+                res.cookie('n_token_key', token,
+                    {
+                        maxAge: new Date(dateNow.getFullYear() + 1, dateNow.getMonth(), dateNow.getDate())
+                    });
+            }
+        }
+        res.redirect('/');
     });
 
 
 router.get('/facebook',
-    passport.authenticate('facebook', { scope: ['email', 'public_profile']}));//,'user_gender','user_link','user_location'] }));
+    passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));//,'user_gender','user_link','user_location'] }));
 
 router.get('/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
     async function (req, res) {
         const userFb = req.user;
-        console.log("fb",userFb);
         const userDb = await User.findByFacebookId(userFb.id);
-        
-        if(userDb){
+
+        if (userDb) {
             const token = await userDb.generateAuthToken();
-            res.cookie('n_token_key', token);
+            let dateNow = new Date();
+            res.cookie('n_token_key', token,
+            {
+                maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
+            });
         } else {
-            // if (await User.exists({
-            //     $or: [{ email: email.toLowerCase() }, { username: username.toLowerCase() }]
-            // })) {
-            //     throw "Email or Username is already exists";
-            // }
-            const user = new User();
-            user.fullname = (userFb.name.familyName||'') + (userFb.name.middleName|| '') + (userFb.name.givenName||'');
-            user.username = userFb.emails[0].value.replace(/\@.+\..+/,'');
-            user.email = userFb.emails[0].value;
-            user.avatar = userFb.photos[0] ? userFb.photos[0].value: '';
-            user.password = 'hungking.IO';
-            user.facebook.id = userFb.id;
-            await user.save();
-            const token = await user.generateAuthToken();
-            res.cookie('n_token_key', token);
+            let email = userFb.emails[0].value;
+            let username = userFb.emails[0].value.replace(/\@.+\..+/, '');
+            const userDb2 = await User.findOne({
+                email: email.toLowerCase()
+            })
+            if (userDb2) {
+                userDb2.facebook.id = userFb.id;
+                const token = await userDb2.generateAuthToken();
+                await userDb2.save();
+                let dateNow = new Date();
+            res.cookie('n_token_key', token,
+            {
+                maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
+            });
+            } else {
+                const user = new User();
+                user.fullname = (userFb.name.familyName || '') + (userFb.name.middleName || '') + (userFb.name.givenName || '');
+                user.username = username;
+                user.email = email;
+                user.avatar = userFb.photos[0] ? userFb.photos[0].value : '';
+                user.password = 'hungking.IO';
+                user.facebook.id = userFb.id;
+                await user.save();
+                const token = await user.generateAuthToken();
+                let dateNow = new Date();
+            res.cookie('n_token_key', token,
+            {
+                maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
+            });
+            }
         }
-        const query = querystring.stringify({
-            "id": req.user.id,
-            "name": req.user.displayName
-        });
-        res.redirect('http://localhost:3000/auth/login/?' + query)
+        res.redirect('/');
     });
 
 module.exports = router;

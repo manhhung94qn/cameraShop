@@ -175,6 +175,12 @@ userSchema.statics.findByFacebookId = async (facebookId) => {
     });
 }
 
+userSchema.statics.findByGoogleId = async (facebookId) => {
+    return await User.findOne({
+        'google.id': facebookId
+    });
+}
+
 const User = mongoose.model('User', userSchema,'User');
 
 

@@ -206,13 +206,18 @@
             <span>Đăng ký nhanh với</span>
           </div>
           <div class="text-center">
-            <v-btn color="textAccent" fab outlined>
-              <v-icon large>mdi-facebook</v-icon>
-            </v-btn>
+            <a href="/auth/facebook">
+              <v-btn color="textAccent" fab outlined>
+                <v-icon large>mdi-facebook</v-icon>
+              </v-btn>
+            </a>
+            
             <span>hoặc</span>
-            <v-btn color="textAccent" fab outlined>
-              <v-icon large>mdi-google</v-icon>
-            </v-btn>
+            <a href="/auth/google">
+              <v-btn color="textAccent" fab outlined>
+                <v-icon large>mdi-google</v-icon>
+              </v-btn>
+            </a>
           </div>
         </v-alert>
       </v-col>
