@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <v-expansion-panels class="col-lg-4 py-1 mt-3 py-lg-2 d-block d-lg-none">
+      <v-expansion-panels class="px-3 py-1 mt-3 d-block d-md-none">
         <v-expansion-panel>
           <v-expansion-panel-header class="d-flex align-center">
             <svg
@@ -41,7 +41,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-      <div class="col-lg-4 py-1 py-lg-2 d-none d-lg-block" v-for="(item, i) in items" :key="i">
+      <div class="col-md-4 py-1 py-md-2 d-none d-md-block" v-for="(item, i) in items" :key="i">
         <v-card class="py-5">
           <div class="d-flex flex-no-wrap justify-space-around justify-lg-center align-center">
             <div class="border-icon">
