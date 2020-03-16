@@ -35,7 +35,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "~/plugins/bootstrap.js",{src: 'plugins/owl.js', ssr: false}, "~/plugins/vee-validate"
+    "~/plugins/bootstrap.js", { src: 'plugins/owl.js', ssr: false }, "~/plugins/vee-validate", "~/plugins/axios"
   ],
   /*
   ** Nuxt.js dev-modules
@@ -52,14 +52,43 @@ module.exports = {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    '@nuxtjs/toast'
   ],
+  toast: {
+    position: 'top-right',
+    register: [ // Register custom toasts
+      {
+        name: 'n_success',
+        message: (payload) => {
+          if (!payload.message) {
+            return 'Thành công...'
+          };
+          return payload.message
+        },
+        options: {
+          type: 'info',
+          icon: 'check-circle-outline',
+          duration: 5000,
+          theme: 'outline',
+          keepOnHover: true,
+          iconPack: 'mdi',
+          action: {
+            icon: 'close-circle-outline',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        },
+      }
+    ]
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
+    baseURL: (process.env.BASE_URL || 'http://localhost:3000') +'/api'
   },
   /*
   ** vuetify module configuration
@@ -112,9 +141,9 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-   transpile: [
-    "vee-validate/dist/rules"
-  ],
+    transpile: [
+      "vee-validate/dist/rules"
+    ],
     vendor: ["jquery"],
     plugins: [
       new webpack.ProvidePlugin({

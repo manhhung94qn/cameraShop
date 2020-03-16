@@ -1,7 +1,8 @@
 export const state = ()=>({
     isShowListMenu : false,
     isShowSnackbar: false,
-    isShowListAccountMenu: false
+    isShowListAccountMenu: false,
+    isOverlay: false
 });
 
 export const mutations = {
@@ -13,5 +14,8 @@ export const mutations = {
     },
     setIsShowListAccountMenu(state,payload){
         state.isShowListAccountMenu = payload.value
+    },
+    setIsOverlay(state,payload){
+        state.isOverlay = payload.value
     }
 }

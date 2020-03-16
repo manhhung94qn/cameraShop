@@ -5,7 +5,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new GoogleStrategy({
     clientID: '849979619698-5i6vhjq6lcf47snoa1162lia5afmu3l7.apps.googleusercontent.com',
     clientSecret: 'ig2wZbAoSAWnuYAPAjoBul_w',
-    callbackURL: "http://localhost:3000/auth/google/callback",
+    callbackURL: "/auth/google/callback",
 },
     function (accessToken, refreshToken, profile, done) {
 
@@ -19,12 +19,10 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: '2446551442264007',
     clientSecret: '5affcd31d38f2227c5094380fca76375',
-    callbackURL: 'http://localhost:3000/auth/facebook/callback',
+    callbackURL: '/auth/facebook/callback',
     profileFields: ['id', 'displayName', 'email', 'first_name', 'last_name', 'middle_name', 'photos', 'profileUrl', 'gender']
 },
     function (accessToken, refreshToken, profile, done) {
-
-
         process.nextTick(function () {
             return done(null, profile);
         });

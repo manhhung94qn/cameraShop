@@ -12,31 +12,89 @@
             </ul>
 
             <ul class="topmenu topmenu-link d-none d-lg-flex">
-              <li v-for="(item, i) in listMenuTop" class="ml-4" :key="i">
-                <nuxt-link class="d-flex topmenu-link" :to="item.to">
-                  <v-icon small class="mr-1 topmenu-link-icon">{{item.icon}}</v-icon>
-                  {{' ' + item.title}}
+              <li class="ml-4" v-if="!computedIsLogined">
+                <nuxt-link class="d-flex topmenu-link" to="/account/signin">
+                  <v-icon small class="mr-1 topmenu-link-icon">mdi-account-key-outline</v-icon>Đăng nhập
+                </nuxt-link>
+              </li>
+              <li class="ml-4" v-if="!computedIsLogined">
+                <nuxt-link class="d-flex topmenu-link" to="/account/signup">
+                  <v-icon small class="mr-1 topmenu-link-icon">mdi-key-outline</v-icon>Đăng ký
+                </nuxt-link>
+              </li>
+              <li class="ml-4 d-flex" v-if="computedIsLogined">
+                <nuxt-link class="d-flex topmenu-link" to="/account">
+                  <v-icon small class="mr-1 topmenu-link-icon">mdi-account-circle</v-icon>{{computedUser.username}}
+                </nuxt-link>
+                <span class="d-flex topmenu-link" @click="onLogout">
+                  [Thoát]
+                </span>
+              </li>
+              <li class="ml-4">
+                <nuxt-link class="d-flex topmenu-link" to="/inspire">
+                  <v-icon small class="mr-1 topmenu-link-icon">mdi-file-document-edit-outline</v-icon>Kiểm tra giỏ hàng
+                </nuxt-link>
+              </li>
+              <li class="ml-4">
+                <nuxt-link class="d-flex topmenu-link" to="/inspire">
+                  <v-icon small class="mr-1 topmenu-link-icon">mdi-basket-outline</v-icon>Giỏ hàng
                 </nuxt-link>
               </li>
             </ul>
 
             <div class="topmenu d-flex d-lg-none">
-              <v-menu
-                v-for="(item, i) in listMenuTopMobile"
-                :key="i"
-                :absolute="absolute"
-                :offset-x="offsetX"
-                :offset-y="offsetY"
-              >
+              <v-menu :absolute="false" :offset-x="true" :offset-y="true">
                 <template v-slot:activator="{ on }">
-                  <v-icon class="mr-2" v-on="on">{{item.icon}}</v-icon>
+                  <v-icon class="mr-2" v-on="on">mdi-account-circle</v-icon>
                 </template>
                 <v-list class="bg-color-secondary-im">
-                  <v-list-item v-for="(menu,i) in getListMenuByType(item.type)" :key="i">
+                  <v-list-item v-if="!computedIsLogined">
                     <v-list-item-title>
-                      <nuxt-link class="topmenu-link d-flex align-center" :to="menu.to">
-                        <v-icon small class="mr-1">{{menu.icon}}</v-icon>
-                        {{menu.title}}
+                      <nuxt-link class="topmenu-link d-flex align-center text-color-accent-im" to="/account/signin">
+                        <v-icon small class="mr-1">mdi-account-key-outline</v-icon>Đăng nhập
+                      </nuxt-link>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item v-if="!computedIsLogined">
+                    <v-list-item-title>
+                      <nuxt-link class="topmenu-link d-flex align-center text-color-accent-im" to="/account/signup">
+                        <v-icon small class="mr-1">mdi-key-outline</v-icon>Đăng ký
+                      </nuxt-link>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item v-if="computedIsLogined">
+                    <v-list-item-title>
+                      <nuxt-link class="topmenu-link d-flex align-center text-color-accent-im" to="/account">
+                        <v-icon small class="mr-1">mdi-account-circle</v-icon>{{computedUser.username}}
+                      </nuxt-link>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item v-if="computedIsLogined">
+                    <v-list-item-title>
+                      <div class="topmenu-link d-flex align-center text-color-accent-im" @click="onLogout">
+                        <v-icon small class="mr-1  text-color-accent-im">mdi-key-outline</v-icon>Đăng xuất
+                      </div>
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+
+              <v-menu :absolute="false" :offset-x="true" :offset-y="true">
+                <template v-slot:activator="{ on }">
+                  <v-icon class="mr-2" v-on="on">mdi-format-list-bulleted</v-icon>
+                </template>
+                <v-list class="bg-color-secondary-im">
+                  <v-list-item>
+                    <v-list-item-title>
+                      <nuxt-link class="topmenu-link d-flex align-center" to="/inspire">
+                        <v-icon small class="mr-1">mdi-file-document-edit-outline</v-icon>Kiểm tra đơn hàng
+                      </nuxt-link>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-title>
+                      <nuxt-link class="topmenu-link d-flex align-center" to="/inspire">
+                        <v-icon small class="mr-1">mdi-basket-outline</v-icon>Giỏ hàng
                       </nuxt-link>
                     </v-list-item-title>
                   </v-list-item>
@@ -76,7 +134,7 @@
               <v-menu
                 open-on-hover
                 left
-                :offset-y="offsetY"
+                :offset-y="true"
                 :close-on-content-click="false"
                 transition="slide-y-reverse-transition"
                 max-width="350px"
@@ -302,9 +360,10 @@
                             <template v-slot:activator="{ on }">
                               <v-list-item-title class="pa-4" v-on="on">Danh mục sản phẩm {{item}}</v-list-item-title>
                             </template>
-                            <v-list 
-                            @mouseover="changeIshowMenu(true)"
-                            @mouseleave="changeIshowMenu(false)">
+                            <v-list
+                              @mouseover="changeIshowMenu(true)"
+                              @mouseleave="changeIshowMenu(false)"
+                            >
                               <v-list-item link v-for="key in 5" :key="key">
                                 <v-list-item-title>Danh muc con {{ item + '-' + key}}</v-list-item-title>
                               </v-list-item>
@@ -343,111 +402,46 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      absolute: false,
       activeList: false,
       activeList2: false,
       sumMoneyCard: 10000,
       postY: 100,
       pstSelected: 1,
-      offsetX: true,
-      offsetY: true,
       drawer: false,
-      listMenuTopMobile: [
-        {
-          icon: "mdi-account-circle",
-          type: 1
-        },
-        {
-          icon: "mdi-format-list-bulleted",
-          type: 2
-        }
-      ],
-      listMenuTop: [
-        {
-          title: "Kiểm tra đơn hàng",
-          icon: "mdi-file-document-edit-outline",
-          to: "/inspire",
-          type: 2
-        },
-        {
-          title: "Giỏ hàng",
-          icon: "mdi-basket-outline",
-          to: "/test",
-          type: 2
-        },
-        {
-          title: "Đăng nhập",
-          icon: "mdi-account-key-outline",
-          to: "/login",
-          type: 1
-        },
-        {
-          title: "Đăng ký",
-          icon: "mdi-key-outline",
-          to: "/account/signup",
-          type: 1
-        }
-      ],
-      items: [
-        {
-          action: "mdi-menu",
-          title: "Attractions",
-          items: [{ title: "List Item" }]
-        },
-        {
-          action: "mdi-menu",
-          title: "Dining",
-          active: false,
-          items: [
-            { title: "Breakfast & brunch" },
-            { title: "New American" },
-            { title: "Sushi" }
-          ]
-        },
-        {
-          action: "mdi-menu",
-          title: "Education",
-          items: [{ title: "List Item" }]
-        },
-        {
-          action: "mdi-menu",
-          title: "Family",
-          items: [{ title: "List Item" }]
-        },
-        {
-          action: "mdi-menu",
-          title: "Health",
-          items: [{ title: "List Item" }]
-        },
-        {
-          action: "mdi-menu",
-          title: "Office",
-          items: [{ title: "List Item" }]
-        },
-        {
-          action: "mdi-menu",
-          title: "Promotions",
-          items: [{ title: "List Item" }]
-        }
-      ],
       isShowListMenu: false,
       timeOutShowListMenu: null
     };
   },
   created() {},
   methods: {
-    getListMenuByType(type) {
-      return this.listMenuTop.filter(x => x.type === type);
+    async onLogout() {
+      this.setIsOverlay({
+        value: true
+      });
+      try {
+        await this.$axios.$get("/user/logout");
+        this.setUserInfor({
+          id: null,
+          username: null,
+          isLogined: false
+        });
+        this.setIsOverlay({
+          value: false
+        });
+        this.$toast.global.n_success({
+          message: "Đăng xuất thành công."
+        });
+      } catch (error) {
+        console.log(error);
+        this.setIsOverlay({
+          value: false
+        });
+      }
     },
-    // deleteProductFromShopCard(item) {
-    //   let i = this.listProductInCard.indexOf(item);
-    //   if (i >= 0) this.listProductInCard.splice(i, 1);
-    //   return;
-    // },
     changeIshowMenu(status) {
       if (this.$route.path == "/") return;
       if (status === this.computedIsShowListMenu) return;
@@ -461,18 +455,28 @@ export default {
       }
     },
     ...mapActions({
-      deleteProductFromShopCard: 'product/deleteItemInCard'
+      deleteProductFromShopCard: "product/deleteItemInCard"
+    }),
+    ...mapMutations({
+      setUserInfor: "user/setUserInfor",
+      setIsOverlay: "view/setIsOverlay"
     })
   },
   computed: {
     computedIsShowListMenu() {
       return this.$store.state.view.isShowListMenu;
     },
-    computedListProductInCard(){
+    computedListProductInCard() {
       return this.$store.state.product.listProductInCard;
     },
+    computedIsLogined() {
+      return this.$store.state.user.isLogined;
+    },
+    computedUser() {
+      return this.$store.state.user;
+    },
     ...mapGetters({
-      computedCountListProductInCard: 'product/countListProductInCard'
+      computedCountListProductInCard: "product/countListProductInCard"
     })
   },
   watch: {
@@ -504,12 +508,13 @@ export default {
   }
 
   .topmenu-link {
-    color: var(--v-textInfo-base);
+    color: var(--v-textInfo-base) !important;
+    cursor: pointer;
     &:hover {
-      color: var(--v-textAccent-base);
+      color: var(--v-textAccent-base) !important;
     }
     &.nuxt-link-exact-active {
-      color: var(--v-textAccent-base);
+      color: var(--v-textAccent-base) !important;
     }
   }
   .search-pc {
