@@ -5,7 +5,7 @@ const app = express()
 const router = require('./routers.js');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
-
+require('dotenv').config();
 const passport = require('passport');
 
 app.use(express.json());

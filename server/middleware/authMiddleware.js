@@ -8,6 +8,7 @@ const auth = async(req, res, next) => {
         const token = req.cookies.n_token_key;
         const data = jwt.verify(token, '29630ad05c7df38698f0ada5f5893d71')
         const user = await User.findOne({ _id: data._id, 'tokens.token': token },'_id');
+        console.log(user)
         if (!user) throw new Error();
         console.log(user);
         req.userId = user._id

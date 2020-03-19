@@ -52,7 +52,6 @@ module.exports = {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
-    '@nuxtjs/auth',
     '@nuxtjs/toast'
   ],
   toast: {
@@ -88,7 +87,7 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: (process.env.BASE_URL || 'http://localhost:3000') +'/api'
+    baseURL: process.env.NODE_ENV != 'development' ? (process.env.BASE_URL + '/api') : 'http://localhost:3000/api'
   },
   /*
   ** vuetify module configuration
