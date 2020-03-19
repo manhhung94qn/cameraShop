@@ -16,7 +16,7 @@ router.get('/google/callback',
         if (userDb) {
             const token = await userDb.generateAuthToken();
             let dateNow = new Date();
-            res.cookie('n_token_key', token,
+            res.cookie(process.env.BASECOOKIE_TOKEN_KEY_URL, token,
             {
                 maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
             });
@@ -31,7 +31,7 @@ router.get('/google/callback',
                 const token = await userDb2.generateAuthToken();
                 await userDb2.save();
                 let dateNow = new Date();
-                res.cookie('n_token_key', token,
+                res.cookie(process.env.BASECOOKIE_TOKEN_KEY_URL, token,
                     {
                         maxAge: new Date(dateNow.getFullYear() + 1, dateNow.getMonth(), dateNow.getDate())
                     });
@@ -46,7 +46,7 @@ router.get('/google/callback',
                 await user.save();
                 const token = await user.generateAuthToken();
                 let dateNow = new Date();
-                res.cookie('n_token_key', token,
+                res.cookie(process.env.COOKIE_TOKEN_KEY, token,
                     {
                         maxAge: new Date(dateNow.getFullYear() + 1, dateNow.getMonth(), dateNow.getDate())
                     });
@@ -68,7 +68,7 @@ router.get('/facebook/callback',
         if (userDb) {
             const token = await userDb.generateAuthToken();
             let dateNow = new Date();
-            res.cookie('n_token_key', token,
+            res.cookie(process.env.COOKIE_TOKEN_KEY, token,
             {
                 maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
             });
@@ -83,7 +83,7 @@ router.get('/facebook/callback',
                 const token = await userDb2.generateAuthToken();
                 await userDb2.save();
                 let dateNow = new Date();
-            res.cookie('n_token_key', token,
+            res.cookie(process.env.BASECOOKIE_TOKEN_KEY_URL, token,
             {
                 maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
             });
@@ -98,7 +98,7 @@ router.get('/facebook/callback',
                 await user.save();
                 const token = await user.generateAuthToken();
                 let dateNow = new Date();
-            res.cookie('n_token_key', token,
+            res.cookie(process.env.BASECOOKIE_TOKEN_KEY_URL, token,
             {
                 maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
             });

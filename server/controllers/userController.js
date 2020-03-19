@@ -18,12 +18,12 @@ const createNewUser = async (req, res) => {
         const token = await user.generateAuthToken();
         if (saveStateLogin) {
             let dateNow = new Date();
-            res.cookie('n_token_key', token,
+            res.cookie(process.env.COOKIE_TOKEN_KEY, token,
             {
                 maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
             });
         } else {
-            res.cookie('n_token_key', token);
+            res.cookie(process.env.COOKIE_TOKEN_KEY, token);
         }
         res.status(201).send({ id: user._id, username: user.username, token });
     } catch (error) {
@@ -43,7 +43,7 @@ const userLogin = async (req, res) => {
         let id = user._id;
         if (saveStateLogin) {
             let dateNow = new Date();
-            res.cookie('n_token_key', token,
+            res.cookie(process.env.COOKIE_TOKEN_KEY, token,
             {
                 maxAge: new Date(dateNow.getFullYear()+1,dateNow.getMonth(),dateNow.getDate())
             });
@@ -154,7 +154,7 @@ const userLogoutInThisDevice = async (req, res) => {
             return x.token != req.token
         })
         await user.save();
-        res.clearCookie('n_token_key');
+        res.clearCookie(process.env.COOKIE_TOKEN_KEY);
         res.status(200).send({})
     } catch (error) {
         res.status(500).send(error)
@@ -166,7 +166,7 @@ const userLogoutAll = async (req, res) => {
     try {
         req.user.tokens.splice(0, req.user.tokens.length);
         await req.user.save();
-        res.clearCookie('n_token_key');
+        res.clearCookie(process.env.COOKIE_TOKEN_KEY);
         res.send();
     } catch (error) {
         res.status(500).send(error)
