@@ -1,4 +1,4 @@
-import { required, email, min, confirmed } from "vee-validate/dist/rules";
+import { required, email, min } from "vee-validate/dist/rules";
 import {
     extend,
     setInteractionMode
@@ -31,9 +31,4 @@ extend("min", {
 extend("email", {
     ...email,
     message: fieldName => `Bạn chưa nhập ${message[fieldName]}.`
-});
-
-extend("confirmed", {
-    ...confirmed,
-    message: fieldName => `Xác nhận mật khẩu không đúng.`
 });

@@ -1,22 +1,13 @@
 export const state = () => ({
-    id: '',
+    user_id: '',
     username: '',
-    isAdmin: false,
-    isLogined: false,
     token: ''
 });
 
 export const mutations = {
     setUserInfor(state, payload) {
-        state.id = payload.id;
+        state.user_id = payload.id;
         state.username = payload.username;
-        state.isLogined = payload.isLogined
+        state.token = payload.token
     },
-    setToken(state,payload){
-        state.token = payload.value
-    }
 }
-
-export const getters =  {
-    getIsLogined: (state) => state.isLogined
-  }

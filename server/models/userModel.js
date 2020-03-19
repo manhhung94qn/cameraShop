@@ -8,17 +8,20 @@ const HOST = process.env.HOST;
 const PORT = process.env.PORT;
 
 const userSchema = new Schema({
-    fullname: {
-        type: String,
-        required: false
+    name: {
+        first: {
+            type: String,
+            required: false
+        },
+        last: {
+            type: String,
+            required: false
+        }
     },
     username: {
         type: String,
         lowercase: true,
         required: true
-    },
-    phoneNumber: {
-        type: String
     },
     email: {
         type: String,
@@ -39,10 +42,11 @@ const userSchema = new Schema({
         code: {
             type: Number,
             default: 3
+        },
+        title: {
+            type: String,
+            default: 'Mr.'
         }
-    },
-    birthday: {
-        type: Date
     },
     facebook: {
         id: String,
@@ -116,6 +120,10 @@ const userSchema = new Schema({
     collection: 'User'
 })
 
+userSchema.virtual('fullName').get(function () {
+    return this.name.last + ' ' + this.name.first;
+});
+
 userSchema.virtual('fullUrlAvatar').get(function () {
     return HOST + ':' + PORT + '/icons/avatars/' + (this.avatar || '79bc966c53a22b2901e7d3513116dca0.png')
 })
@@ -149,10 +157,10 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.generateAuthToken = async function () {
     // Generate an auth token for the user
     const user = this;
-    const token = jwt.sign({ _id: user._id }, '29630ad05c7df38698f0ada5f5893d71');
-    user.tokens = user.tokens.concat({ token });
-    await user.save();
-    return token;
+    const token = jwt.sign({ _id: user._id }, '29630ad05c7df38698f0ada5f5893d71')
+    user.tokens = user.tokens.concat({ token })
+    await user.save()
+    return token
 }
 
 userSchema.statics.findByCredentials = async (username, password) => {
@@ -167,18 +175,6 @@ userSchema.statics.findByCredentials = async (username, password) => {
         throw new Error({ error: 'Invalid login credentials' })
     }
     return user
-}
-
-userSchema.statics.findByFacebookId = async (facebookId) => {
-    return await User.findOne({
-        'facebook.id': facebookId
-    });
-}
-
-userSchema.statics.findByGoogleId = async (facebookId) => {
-    return await User.findOne({
-        'google.id': facebookId
-    });
 }
 
 const User = mongoose.model('User', userSchema,'User');
